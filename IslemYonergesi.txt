@@ -1,0 +1,34 @@
+
+CORE Katmaný = Framework yapacaðýz bu yaptýðýmýzý farklý projelerimizde de kullanabileceðiz. Bunu EfProductDal ve EfCategoryDal için yapmamýz gerekiyor çünkü bunlar ayný þeyleri yapýyor sadece alýnan paremetreler deðiþiyor.
+Bunun için Class Library oluþturmalýyýz. Core -> Class Library
+
+Bu CORE Katmanýnda evrensel kodlarýmý yazabilirim.
+
+CORE Katmanýnda DataAccess folderý data access için evrensel kodlarýmý yazýyorum demektir.
+
+NameSpace : Classlarý Interface lerý belli bir isim uzayýnda býrakýyoruz ki rahatça eriþebilielim diye.
+
+***CORE Katmaný diðer katmanlarý referans almaz.Ozaman sadece o projeye baðýmlý olacaktýr bunu istemiyoruz.
+
+IEntityRepository ve IEntity katmanlarýnýn Nortwind database i ile bir baðlantýsý yok. Bunlar global oyüzden CORE Katmanýna atmamýz lazým.
+
+CORE Katamnýna da veri tabaný eklememiz lazým oyüzden Solutiýn sað click manage nuget aç ýnstall de EntityFrameWrodkCoreSQLSERVER'I CORA EKLE
+
+EfProductDal artýk EfEntitiyRepositoryBase'i inherit alacaktýr. Çünkü IProductDal'a iliþkin methodlar artýk orada.
+Burada IProductDal'ý da inherit etmemiz lazým. Bunu farklý server'lar baðlamak için lazým. IProductDal'ý product tablosuna iliþkin operasyonlarý kullanmak için kullanacaðýz.
+
+Yeni bir Order class ý eklemek istersek;
+1) Entities Class Library'de Order Class ý oluþturulur.
+2) Data Access Class Library'de Abstract'ta Interfacý oluþturulur ve bu Interface IEntityRepository olduðu implement et.
+3) Data Access Class Library'de EntityFrameWork'te EfOrderDal'ý hazýrla. Bunun da EfEntityRepositoryBase<Order, NorthwindContext>,IOrderDal olduðunu belirt.
+Bundan sonra tüm sql operasyonlarýn hazýr olmuþ oluyor.
+
+4) Veri tabaný Context'inde database'deki tablo ile bu yeni oluþturdum Order Class'ýnýn baðlamam lazým.
+
+5) Business'ta Abstract Interface oluþturacaðýz. Burada Order'la ilgili dýþ dünyaya neyi servis etmek istiyorsak o operasyonlarý yazýyoruz.
+
+6) Business Concrete'te Order'ýn iþ sýnýflarýný yazýyoruz.
+
+7) Businnes manager sýnýflarýma Data Access'teki ilgili Interface'i implement ediyorum IOrderDal _orderDal;
+
+8) Program.cs'de de daha önce yazdýðýmz kodlarý metod haline getirmek için seçip sað clikten quick actions refractoring ' i seçip metod yaptýk.
