@@ -32,3 +32,14 @@ Bundan sonra tüm sql operasyonlarýn hazýr olmuþ oluyor.
 7) Businnes manager sýnýflarýma Data Access'teki ilgili Interface'i implement ediyorum IOrderDal _orderDal;
 
 8) Program.cs'de de daha önce yazdýðýmz kodlarý metod haline getirmek için seçip sað clikten quick actions refractoring ' i seçip metod yaptýk.
+
+9) DTO (Data Transformation Object) : Join gibi operasyonlarý yapýyoruz. Entities'te klasor olarak oluþtur.
+
+10) DTOs clasorunde ProductDetailDto classý oluþtur.
+
+11) Core altýnda Entitites'te IDtos interface i oluþturulmalýdýr.
+ProductDetailDto:IDto yapmayý unutma.
+
+12) DataAccess'teki Interface'lerde join yapýsý oluþturulacak.
+
+
