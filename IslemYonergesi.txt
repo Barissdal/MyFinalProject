@@ -95,5 +95,36 @@ Resulttaki ilk constructor success ve message parametreleri alýyordu.
 Burada da succes olduðu için ona true diyoruz ve bir message parametresi giriyoruz.
 26)ProductManager'da artýk add metodunda result yerine successresult ý çaðýrabiliriz.
 27) ErrorResult ' ta oluþturalým.
+28) ErrorResult için Business katmanýnda döndüreceðimiz string ler için bir yapý oluþturacaðýz.
+29)Business ta Constants folder ý oluþturalým. Veritabanýmýza özel proje sabitlerini burada oluþtururuz.
+30) Constants'ta Messages static bir class oluþturalým. Static verdiðimizde new lemeyz.
+31)ProductManager'da artýk ErrorResult ve SuccesResult'ta Messages daki statik sabitlerimizi çaðýrabiliriz.
+32)IProductService te GetAll için de IDataResult döndürsün.
+Hem data, hem mesajý, hemde iþlem sonucu içeren bir yapýyý görevi görsün.
+33) Core-Utilities-Results altýnda IDataResult interface oluþturalým.
+Bu IDataResult ayný zamanda bir de IResult olacak çünkü orada mesaj ve iþlem sonucu da içermektedir.
+34)IProductService'teki GetAll'da IDataResult<List<Product>> döndürecek.
+Add metodu IResult kalýyor çünkü o bir void metottu Data içermiyor.
+35)ProductManager'daki interface metodlarý artýk IDataResult istediði için onlarý güncelleyeceðiz.
+Ayrýca return'lerde IDataResult'ýn somutu olan DataResult döndürmeliyiz.
+Bunun için Results folderý na DataResult class ý oluþturalým.
+Bunun Result'tan farklý data da içermesidir.
+36) DataResult, hem Result hem de IDataResult 'týr.
+37) Result için SuccessResult ve ErrorResult yaptýk;
+DataResult için de SuccessDataResult ve ErrorDataResult yapalým.
+38)SuccesDataResult ta çeþitli versiyonlar oluþturuyoruz.
+39)Benzer þeyleri ErrorDataResult için de yap ve true larý false yapalaým.
+40) ProductManager da return'lerde artýk ErrorDataResult ve SuccessDataResult new lenecek.
+41) Program.cs'de ProductTest metodunda GetProductDetails artýk IDataResult döndürüyor onun için metodun
+sonuna .Data yapalým.
+42) ProductTest'te if koþullarý ekliyoruz.
+43)Messages classýnda MaintenanceTime ile ProductsListed'ý string olarak açýklamasýný yazalým.
+Onlarý da public yap internal yerine.
+
+
+
+
+
+
 
 
