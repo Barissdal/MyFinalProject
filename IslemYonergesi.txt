@@ -29,6 +29,7 @@ Bundan sonra tüm sql operasyonlarýn hazýr olmuþ oluyor.
 
 6) Business Concrete'te Order'ýn iþ sýnýflarýný yazýyoruz.
 
+
 7) Businnes manager sýnýflarýma Data Access'teki ilgili Interface'i implement ediyorum IOrderDal _orderDal;
 
 8) Program.cs'de de daha önce yazdýðýmz kodlarý metod haline getirmek için seçip sað clikten quick actions refractoring ' i seçip metod yaptýk.
@@ -41,5 +42,58 @@ Bundan sonra tüm sql operasyonlarýn hazýr olmuþ oluyor.
 ProductDetailDto:IDto yapmayý unutma.
 
 12) DataAccess'teki Interface'lerde join yapýsý oluþturulacak.
+
+10.GÜN SONU KAYIT NOTLARI WEB API
+
+1) Business'ta IProductService Add metodu ekleyelim.
+2)Web API, yazdýðýmýz kodlarýn bir Angular, IOS vb. uygulamalarýn
+anlamasýný saðlar.
+WEB API ,Restful denilen bir formatla çalýþan json uygulamalarý
+3) Client'larýn WEB API'ye yapacaklarý Requestler ile bizim vereceðimiz
+Response larý yönetebilmek için bir alt yapý kuracaðýz.
+4) Bu Request'lere Response döndürecekler Business'taki Managerlerdir.
+Oyüzden orasý için Base bir katman yazacaðýz.
+5)Business'ta IProductService GetById metodu ekleyelim.
+6) Bir metodtta sadece bir þey döndürebilirsin ama bir den fazla þey döndürmek istersen
+Encapsulation yapman lazým.
+7) Core Katmanýna Utilities(Araçlar) folderý ekleyelim.
+8) Utilities'te de bir Results klasorü ekleyeceðiz Response larýmýz için.
+Bu Result klasörü bizim result larýmýzý düzenleyecek.
+9) Result klasöründe IResult interfacý oluþturalým.
+10) IResult ýn somut classýný Result olarak oluþtur.
+11) Result'ta IResult ý implement ettikten sonra return tarafýna {get;}
+12) IProductService eklediðimiz Add metodunu void deðil artýk IResult döndürmeli
+13) ProductManager'da da ilgili void yerine IResult yapýyoruz. (Add metodu)
+14) Bu Add metoduna return olarak artýk Result vermeliyiz.
+15) return new Result(true,"Ürün eklendi.");
+16) Burada Result'a çift týklayýp ampülden üsttekini seçiyoruz ve Reulst'a F12 ile gidiyoruz.
+17) private deðiþkenleri ve metodun içindeki this leri siliyoruz.
+17) Result'ta contructor kurulduðu için burada Message=message yapýyoruz yani aslýnda sadece get yapýlabilen deðiþlenleri
+Contructor ile set leyebiliyoruz.
+18) Add çalýþtýktan sonra mesaj döndürmek istemiyorsak ne yapacaðýz?
+19) succes ve message parametresi alan constructor ý overload edecek sadece succes
+parametresi alan bir Result contructor daha yazýyoruz.
+20) public Result(bool success, string message):this(success)
+        {
+            Message = message;
+        }
+
+        public Result(bool success)
+        {
+            Success = success;
+        }
+21) this ile Result'ýn sadece success alan parametreli contructorý da çalýþþýn diyoruz.
+22) Dolayýsýyla ProductManager'da IResult döndüren Add methodunda
+iki parametreli Result'ý new lersen Result.cs de iki contructor da çalýþacak.
+23) Bu yapýyý þimdi biraz daha profesyonel yapalým. SuccessResult, ErrorResult vb.
+24) Results folderýnda SuccessResult yaratalým bu ayný zamanda Result,
+burada Result contructor içerdiði için SuccessResult içinde constructor olmalý
+25)SuccessResult construtorý oluþturuyoruz ve ;
+public SuccessResult(string message):base(true,message) böyle tanýmlýyoruz
+Buradaki base aslýnda Result'ý iþaret etmektedir.
+Resulttaki ilk constructor success ve message parametreleri alýyordu.
+Burada da succes olduðu için ona true diyoruz ve bir message parametresi giriyoruz.
+26)ProductManager'da artýk add metodunda result yerine successresult ý çaðýrabiliriz.
+27) ErrorResult ' ta oluþturalým.
 
 
