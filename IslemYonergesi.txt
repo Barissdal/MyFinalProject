@@ -172,6 +172,68 @@ AddSingleton'ý içinde data tutmadýðýmýz yapýlar için kullanýrýz.
 17) Burada da ProductManager contructor'ý da içinde IProductDal içerdiði için,
 bunu da AddSingleton'da bunun EfProductDal olduðu ifade etmemiz lazým.
 
+18) Bu yapýyý farklý bir mimariye taþýyacaðýz.
+Autofac, Ninject, CastleWindsor, StructureMap, LightInject, DryInject -->IoC Container
+
+19) Artýk AOP yapacaðýz.
+AOP= Bütün metodlarýmýzý log lamak istediðimizde kullanýrýz.
+Bir metodun önünde, sonunda ve ya bir metot hata verdiðinde çalýþan kodlarý
+AOP'de yazýyoruz.  Log vb. için
+
+20) Postman daki Status kýsmý Server'ýn ne döndürdüðünü ifade eder.
+Örneðin yetkisi olmayanlar için status 400K olur. Yni buradan alýnan yanýta göre ekran
+yapýlandýrýlacak.
+
+21) ProductController deki Get IActionResult olacak þekilde düzeltelim.
+
+22) Get metodunu result.Success ise döndüreceðimiz status için duruma göre Ok ve BadRequest olarak
+döndürelim.
+
+23) ProductManager'da bu durumu test edelim çalýþtýðým saatte sistem bakýmda olsun.
+Status'te ne dönecek test edelim.
+
+24) Status 400 Bad Request olarak güncellendi sonuçta.
+Çünkü ben saat 16:00'da sistem bakýmda dedim.
+
+25) Þimdi post requesti yazacaðýz.
+
+[HttpPost]
+
+26) Post metoduna nesne olarak Product'ý verebiliriz.
+
+27) Post request'lerde data vermemiz lazým.
+Postman'da Post'u seçip send dedikten sonra
+Body -> raw -> JSON'ý seçelim. Burada JSON formatýnda Product giriþi yapmamýz lazým.
+Bunun için Get'ti çalýþtýrýp oradan gelen JSON formatýný kopyalayabiliriz.
+
+    {
+        "categoryId": 1,
+        "productName": "Bardak",
+        "unitsInStock": 15,
+        "unitPrice": 25
+    }
+
+28) Bunu send ettiðimizde artýk veritabanýna bu bilgileri ekler.
+
+29) Bir Get daha oluþturalým. Bunun için ilkine [HttpGet("getall")]
+ikincisine [HttpGet("getbyid")] ; post için de [HttpPost("add")]
+Metotlarýn adýný da Get=GetAll vb. yapalým
+
+30) Postman'da artýk GET'TE api/products/getall ; getbyid?id=1 
+POST'TA api/products/add kullanarak veri giriþi yapabiliriz.
+
+31) Update ve Delete içinde Post kullanýlabilir.Ama update içinde HttpPut da var.
+
+
+
+
+
+
+
+
+
+
+
 
 
 
