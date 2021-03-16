@@ -122,6 +122,57 @@ sonuna .Data yapalým.
 Onlarý da public yap internal yerine.
 
 
+11.GÜN SONU KAYIT NOTLARI WEB API
+
+Asp.net, .net projelerideki wep projesidir.
+Api, bir Restful mimariyi destekler.
+Restful mimari bizim geliþtiridðimiz .net'i tanýmayan sistemlerin entegre olmasýný saðlayan ortamdýr.
+
+1) Solution üzerinde Add Project -> Asp.net core web application
+WebAPI için API'yý seçip uygun core versionumzu seçip create yapýyoruz.
+
+2) Postmann test ortamýmýz.
+
+3) WebAPI set as startup project yapýyoruz.
+
+4) Controllers folder ý gelen bütün istekleri karþýlar.
+Aslýnda bizim IProductService'teki metodlar için istek oluþturacaðýz.
+
+5) Ýstekler http ile gelecektir.
+
+6) Controllers ta bize gelecek istekleri kodluyoruz aslýnda.
+
+7) Controllers folderýna sað týkla Controllersý seç;
+API'yý seçip empty olaný ekliyoruz. API'lerde controller isimleri çoðul yazýlýr.
+Bu yüzden ProductsController oluþturuyoruz.
+
+8) ProductsController'de artýk Business'taki datalarý çaðýracaðýz.
+
+9) Web API'ye, add project reference yapýyoruz.
+Business, Core, DataAccess ve Entities için.
+
+10) ProductsController' de Get için metod yazýyoruz List<Product> döndüren
+
+11) Bir katman diðer katmanýn somutuyla baðlantý kurmamalý. !!!
+
+12) IProductService'i constructor injection yapýypruz.
+
+13) Bundan sonra çalýþtýrdðýmýzda hata alýyoruz çünkü Web Api somut bir nesne almadýðý için hangi
+manageri döndüreceðini bilmiyor oyüzden IoC devreye giriyor.
+
+14) IoC Container aslýnda soyut varlýklarýmýzýn somutlarýný referans olarak tutan bir liste olarak
+düþünebiliriz. Web Api'ye soyut varlýðýmýzý refere ettiðimizde onun IoC'deki somutunun referansýný döndürür.
+
+15) WebApi'nin içinde Startup.cs ye gidiyoruz þimdi.
+
+16) services.AddSingleton<IProductService,ProductManager>();
+Sen IProductService görüyorsan bunu ProductManager new le diye ifade ederiz.
+AddSingleton'ý içinde data tutmadýðýmýz yapýlar için kullanýrýz.
+
+17) Burada da ProductManager contructor'ý da içinde IProductDal içerdiði için,
+bunu da AddSingleton'da bunun EfProductDal olduðu ifade etmemiz lazým.
+
+
 
 
 
