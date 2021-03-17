@@ -1,78 +1,78 @@
 
-CORE Katmanı = Framework yapacağız bu yaptığımızı farklı projelerimizde de kullanabileceğiz. Bunu EfProductDal ve EfCategoryDal için yapmamız gerekiyor çünkü bunlar aynı şeyleri yapıyor sadece alınan paremetreler değişiyor.
-Bunun için Class Library oluşturmalıyız. Core -> Class Library
+CORE KatmanÄ± = Framework yapacaÄŸÄ±z bu yaptÄ±ÄŸÄ±mÄ±zÄ± farklÄ± projelerimizde de kullanabileceÄŸiz. Bunu EfProductDal ve EfCategoryDal iÃ§in yapmamÄ±z gerekiyor Ã§Ã¼nkÃ¼ bunlar aynÄ± ÅŸeyleri yapÄ±yor sadece alÄ±nan paremetreler deÄŸiÅŸiyor.
+Bunun iÃ§in Class Library oluÅŸturmalÄ±yÄ±z. Core -> Class Library
 
-Bu CORE Katmanında evrensel kodlarımı yazabilirim.
+Bu CORE KatmanÄ±nda evrensel kodlarÄ±mÄ± yazabilirim.
 
-CORE Katmanında DataAccess folderı data access için evrensel kodlarımı yazıyorum demektir.
+CORE KatmanÄ±nda DataAccess folderÄ± data access iÃ§in evrensel kodlarÄ±mÄ± yazÄ±yorum demektir.
 
-NameSpace : Classları Interface lerı belli bir isim uzayında bırakıyoruz ki rahatça erişebilielim diye.
+NameSpace : ClasslarÄ± Interface lerÄ± belli bir isim uzayÄ±nda bÄ±rakÄ±yoruz ki rahatÃ§a eriÅŸebilielim diye.
 
-***CORE Katmanı diğer katmanları referans almaz.Ozaman sadece o projeye bağımlı olacaktır bunu istemiyoruz.
+***CORE KatmanÄ± diÄŸer katmanlarÄ± referans almaz.Ozaman sadece o projeye baÄŸÄ±mlÄ± olacaktÄ±r bunu istemiyoruz.
 
-IEntityRepository ve IEntity katmanlarının Nortwind database i ile bir bağlantısı yok. Bunlar global oyüzden CORE Katmanına atmamız lazım.
+IEntityRepository ve IEntity katmanlarÄ±nÄ±n Nortwind database i ile bir baÄŸlantÄ±sÄ± yok. Bunlar global oyÃ¼zden CORE KatmanÄ±na atmamÄ±z lazÄ±m.
 
-CORE Katamnına da veri tabanı eklememiz lazım oyüzden Solutiın sağ click manage nuget aç ınstall de EntityFrameWrodkCoreSQLSERVER'I CORA EKLE
+CORE KatamnÄ±na da veri tabanÄ± eklememiz lazÄ±m oyÃ¼zden SolutiÄ±n saÄŸ click manage nuget aÃ§ Ä±nstall de EntityFrameWrodkCoreSQLSERVER'I CORA EKLE
 
-EfProductDal artık EfEntitiyRepositoryBase'i inherit alacaktır. Çünkü IProductDal'a ilişkin methodlar artık orada.
-Burada IProductDal'ı da inherit etmemiz lazım. Bunu farklı server'lar bağlamak için lazım. IProductDal'ı product tablosuna ilişkin operasyonları kullanmak için kullanacağız.
+EfProductDal artÄ±k EfEntitiyRepositoryBase'i inherit alacaktÄ±r. Ã‡Ã¼nkÃ¼ IProductDal'a iliÅŸkin methodlar artÄ±k orada.
+Burada IProductDal'Ä± da inherit etmemiz lazÄ±m. Bunu farklÄ± server'lar baÄŸlamak iÃ§in lazÄ±m. IProductDal'Ä± product tablosuna iliÅŸkin operasyonlarÄ± kullanmak iÃ§in kullanacaÄŸÄ±z.
 
-Yeni bir Order class ı eklemek istersek;
-1) Entities Class Library'de Order Class ı oluşturulur.
-2) Data Access Class Library'de Abstract'ta Interfacı oluşturulur ve bu Interface IEntityRepository olduğu implement et.
-3) Data Access Class Library'de EntityFrameWork'te EfOrderDal'ı hazırla. Bunun da EfEntityRepositoryBase<Order, NorthwindContext>,IOrderDal olduğunu belirt.
-Bundan sonra tüm sql operasyonların hazır olmuş oluyor.
+Yeni bir Order class Ä± eklemek istersek;
+1) Entities Class Library'de Order Class Ä± oluÅŸturulur.
+2) Data Access Class Library'de Abstract'ta InterfacÄ± oluÅŸturulur ve bu Interface IEntityRepository olduÄŸu implement et.
+3) Data Access Class Library'de EntityFrameWork'te EfOrderDal'Ä± hazÄ±rla. Bunun da EfEntityRepositoryBase<Order, NorthwindContext>,IOrderDal olduÄŸunu belirt.
+Bundan sonra tÃ¼m sql operasyonlarÄ±n hazÄ±r olmuÅŸ oluyor.
 
-4) Veri tabanı Context'inde database'deki tablo ile bu yeni oluşturdum Order Class'ının bağlamam lazım.
+4) Veri tabanÄ± Context'inde database'deki tablo ile bu yeni oluÅŸturdum Order Class'Ä±nÄ±n baÄŸlamam lazÄ±m.
 
-5) Business'ta Abstract Interface oluşturacağız. Burada Order'la ilgili dış dünyaya neyi servis etmek istiyorsak o operasyonları yazıyoruz.
+5) Business'ta Abstract Interface oluÅŸturacaÄŸÄ±z. Burada Order'la ilgili dÄ±ÅŸ dÃ¼nyaya neyi servis etmek istiyorsak o operasyonlarÄ± yazÄ±yoruz.
 
-6) Business Concrete'te Order'ın iş sınıflarını yazıyoruz.
+6) Business Concrete'te Order'Ä±n iÅŸ sÄ±nÄ±flarÄ±nÄ± yazÄ±yoruz.
 
 
-7) Businnes manager sınıflarıma Data Access'teki ilgili Interface'i implement ediyorum IOrderDal _orderDal;
+7) Businnes manager sÄ±nÄ±flarÄ±ma Data Access'teki ilgili Interface'i implement ediyorum IOrderDal _orderDal;
 
-8) Program.cs'de de daha önce yazdığımz kodları metod haline getirmek için seçip sağ clikten quick actions refractoring ' i seçip metod yaptık.
+8) Program.cs'de de daha Ã¶nce yazdÄ±ÄŸÄ±mz kodlarÄ± metod haline getirmek iÃ§in seÃ§ip saÄŸ clikten quick actions refractoring ' i seÃ§ip metod yaptÄ±k.
 
-9) DTO (Data Transformation Object) : Join gibi operasyonları yapıyoruz. Entities'te klasor olarak oluştur.
+9) DTO (Data Transformation Object) : Join gibi operasyonlarÄ± yapÄ±yoruz. Entities'te klasor olarak oluÅŸtur.
 
-10) DTOs clasorunde ProductDetailDto classı oluştur.
+10) DTOs clasorunde ProductDetailDto classÄ± oluÅŸtur.
 
-11) Core altında Entitites'te IDtos interface i oluşturulmalıdır.
-ProductDetailDto:IDto yapmayı unutma.
+11) Core altÄ±nda Entitites'te IDtos interface i oluÅŸturulmalÄ±dÄ±r.
+ProductDetailDto:IDto yapmayÄ± unutma.
 
-12) DataAccess'teki Interface'lerde join yapısı oluşturulacak.
+12) DataAccess'teki Interface'lerde join yapÄ±sÄ± oluÅŸturulacak.
 
-10.GÜN SONU KAYIT NOTLARI WEB API
+10.GÃœN SONU KAYIT NOTLARI WEB API
 
 1) Business'ta IProductService Add metodu ekleyelim.
-2)Web API, yazdığımız kodların bir Angular, IOS vb. uygulamaların
-anlamasını sağlar.
-WEB API ,Restful denilen bir formatla çalışan json uygulamaları
-3) Client'ların WEB API'ye yapacakları Requestler ile bizim vereceğimiz
-Response ları yönetebilmek için bir alt yapı kuracağız.
-4) Bu Request'lere Response döndürecekler Business'taki Managerlerdir.
-Oyüzden orası için Base bir katman yazacağız.
+2)Web API, yazdÄ±ÄŸÄ±mÄ±z kodlarÄ±n bir Angular, IOS vb. uygulamalarÄ±n
+anlamasÄ±nÄ± saÄŸlar.
+WEB API ,Restful denilen bir formatla Ã§alÄ±ÅŸan json uygulamalarÄ±
+3) Client'larÄ±n WEB API'ye yapacaklarÄ± Requestler ile bizim vereceÄŸimiz
+Response larÄ± yÃ¶netebilmek iÃ§in bir alt yapÄ± kuracaÄŸÄ±z.
+4) Bu Request'lere Response dÃ¶ndÃ¼recekler Business'taki Managerlerdir.
+OyÃ¼zden orasÄ± iÃ§in Base bir katman yazacaÄŸÄ±z.
 5)Business'ta IProductService GetById metodu ekleyelim.
-6) Bir metodtta sadece bir şey döndürebilirsin ama bir den fazla şey döndürmek istersen
-Encapsulation yapman lazım.
-7) Core Katmanına Utilities(Araçlar) folderı ekleyelim.
-8) Utilities'te de bir Results klasorü ekleyeceğiz Response larımız için.
-Bu Result klasörü bizim result larımızı düzenleyecek.
-9) Result klasöründe IResult interfacı oluşturalım.
-10) IResult ın somut classını Result olarak oluştur.
-11) Result'ta IResult ı implement ettikten sonra return tarafına {get;}
-12) IProductService eklediğimiz Add metodunu void değil artık IResult döndürmeli
-13) ProductManager'da da ilgili void yerine IResult yapıyoruz. (Add metodu)
-14) Bu Add metoduna return olarak artık Result vermeliyiz.
-15) return new Result(true,"Ürün eklendi.");
-16) Burada Result'a çift tıklayıp ampülden üsttekini seçiyoruz ve Reulst'a F12 ile gidiyoruz.
-17) private değişkenleri ve metodun içindeki this leri siliyoruz.
-17) Result'ta contructor kurulduğu için burada Message=message yapıyoruz yani aslında sadece get yapılabilen değişlenleri
+6) Bir metodtta sadece bir ÅŸey dÃ¶ndÃ¼rebilirsin ama bir den fazla ÅŸey dÃ¶ndÃ¼rmek istersen
+Encapsulation yapman lazÄ±m.
+7) Core KatmanÄ±na Utilities(AraÃ§lar) folderÄ± ekleyelim.
+8) Utilities'te de bir Results klasorÃ¼ ekleyeceÄŸiz Response larÄ±mÄ±z iÃ§in.
+Bu Result klasÃ¶rÃ¼ bizim result larÄ±mÄ±zÄ± dÃ¼zenleyecek.
+9) Result klasÃ¶rÃ¼nde IResult interfacÄ± oluÅŸturalÄ±m.
+10) IResult Ä±n somut classÄ±nÄ± Result olarak oluÅŸtur.
+11) Result'ta IResult Ä± implement ettikten sonra return tarafÄ±na {get;}
+12) IProductService eklediÄŸimiz Add metodunu void deÄŸil artÄ±k IResult dÃ¶ndÃ¼rmeli
+13) ProductManager'da da ilgili void yerine IResult yapÄ±yoruz. (Add metodu)
+14) Bu Add metoduna return olarak artÄ±k Result vermeliyiz.
+15) return new Result(true,"ÃœrÃ¼n eklendi.");
+16) Burada Result'a Ã§ift tÄ±klayÄ±p ampÃ¼lden Ã¼sttekini seÃ§iyoruz ve Reulst'a F12 ile gidiyoruz.
+17) private deÄŸiÅŸkenleri ve metodun iÃ§indeki this leri siliyoruz.
+17) Result'ta contructor kurulduÄŸu iÃ§in burada Message=message yapÄ±yoruz yani aslÄ±nda sadece get yapÄ±labilen deÄŸiÅŸlenleri
 Contructor ile set leyebiliyoruz.
-18) Add çalıştıktan sonra mesaj döndürmek istemiyorsak ne yapacağız?
-19) succes ve message parametresi alan constructor ı overload edecek sadece succes
-parametresi alan bir Result contructor daha yazıyoruz.
+18) Add Ã§alÄ±ÅŸtÄ±ktan sonra mesaj dÃ¶ndÃ¼rmek istemiyorsak ne yapacaÄŸÄ±z?
+19) succes ve message parametresi alan constructor Ä± overload edecek sadece succes
+parametresi alan bir Result contructor daha yazÄ±yoruz.
 20) public Result(bool success, string message):this(success)
         {
             Message = message;
@@ -82,129 +82,132 @@ parametresi alan bir Result contructor daha yazıyoruz.
         {
             Success = success;
         }
-21) this ile Result'ın sadece success alan parametreli contructorı da çalışşın diyoruz.
-22) Dolayısıyla ProductManager'da IResult döndüren Add methodunda
-iki parametreli Result'ı new lersen Result.cs de iki contructor da çalışacak.
-23) Bu yapıyı şimdi biraz daha profesyonel yapalım. SuccessResult, ErrorResult vb.
-24) Results folderında SuccessResult yaratalım bu aynı zamanda Result,
-burada Result contructor içerdiği için SuccessResult içinde constructor olmalı
-25)SuccessResult construtorı oluşturuyoruz ve ;
-public SuccessResult(string message):base(true,message) böyle tanımlıyoruz
-Buradaki base aslında Result'ı işaret etmektedir.
-Resulttaki ilk constructor success ve message parametreleri alıyordu.
-Burada da succes olduğu için ona true diyoruz ve bir message parametresi giriyoruz.
-26)ProductManager'da artık add metodunda result yerine successresult ı çağırabiliriz.
-27) ErrorResult ' ta oluşturalım.
-28) ErrorResult için Business katmanında döndüreceğimiz string ler için bir yapı oluşturacağız.
-29)Business ta Constants folder ı oluşturalım. Veritabanımıza özel proje sabitlerini burada oluştururuz.
-30) Constants'ta Messages static bir class oluşturalım. Static verdiğimizde new lemeyz.
-31)ProductManager'da artık ErrorResult ve SuccesResult'ta Messages daki statik sabitlerimizi çağırabiliriz.
-32)IProductService te GetAll için de IDataResult döndürsün.
-Hem data, hem mesajı, hemde işlem sonucu içeren bir yapıyı görevi görsün.
-33) Core-Utilities-Results altında IDataResult interface oluşturalım.
-Bu IDataResult aynı zamanda bir de IResult olacak çünkü orada mesaj ve işlem sonucu da içermektedir.
-34)IProductService'teki GetAll'da IDataResult<List<Product>> döndürecek.
-Add metodu IResult kalıyor çünkü o bir void metottu Data içermiyor.
-35)ProductManager'daki interface metodları artık IDataResult istediği için onları güncelleyeceğiz.
-Ayrıca return'lerde IDataResult'ın somutu olan DataResult döndürmeliyiz.
-Bunun için Results folderı na DataResult class ı oluşturalım.
-Bunun Result'tan farklı data da içermesidir.
-36) DataResult, hem Result hem de IDataResult 'tır.
-37) Result için SuccessResult ve ErrorResult yaptık;
-DataResult için de SuccessDataResult ve ErrorDataResult yapalım.
-38)SuccesDataResult ta çeşitli versiyonlar oluşturuyoruz.
-39)Benzer şeyleri ErrorDataResult için de yap ve true ları false yapalaım.
-40) ProductManager da return'lerde artık ErrorDataResult ve SuccessDataResult new lenecek.
-41) Program.cs'de ProductTest metodunda GetProductDetails artık IDataResult döndürüyor onun için metodun
-sonuna .Data yapalım.
-42) ProductTest'te if koşulları ekliyoruz.
-43)Messages classında MaintenanceTime ile ProductsListed'ı string olarak açıklamasını yazalım.
-Onları da public yap internal yerine.
+21) this ile Result'Ä±n sadece success alan parametreli contructorÄ± da Ã§alÄ±ÅŸÅŸÄ±n diyoruz.
+22) DolayÄ±sÄ±yla ProductManager'da IResult dÃ¶ndÃ¼ren Add methodunda
+iki parametreli Result'Ä± new lersen Result.cs de iki contructor da Ã§alÄ±ÅŸacak.
+23) Bu yapÄ±yÄ± ÅŸimdi biraz daha profesyonel yapalÄ±m. SuccessResult, ErrorResult vb.
+24) Results folderÄ±nda SuccessResult yaratalÄ±m bu aynÄ± zamanda Result,
+burada Result contructor iÃ§erdiÄŸi iÃ§in SuccessResult iÃ§inde constructor olmalÄ±
+25)SuccessResult construtorÄ± oluÅŸturuyoruz ve ;
+public SuccessResult(string message):base(true,message) bÃ¶yle tanÄ±mlÄ±yoruz
+Buradaki base aslÄ±nda Result'Ä± iÅŸaret etmektedir.
+Resulttaki ilk constructor success ve message parametreleri alÄ±yordu.
+Burada da succes olduÄŸu iÃ§in ona true diyoruz ve bir message parametresi giriyoruz.
+26)ProductManager'da artÄ±k add metodunda result yerine successresult Ä± Ã§aÄŸÄ±rabiliriz.
+27) ErrorResult ' ta oluÅŸturalÄ±m.
+28) ErrorResult iÃ§in Business katmanÄ±nda dÃ¶ndÃ¼receÄŸimiz string ler iÃ§in bir yapÄ± oluÅŸturacaÄŸÄ±z.
+29)Business ta Constants folder Ä± oluÅŸturalÄ±m. VeritabanÄ±mÄ±za Ã¶zel proje sabitlerini burada oluÅŸtururuz.
+30) Constants'ta Messages static bir class oluÅŸturalÄ±m. Static verdiÄŸimizde new lemeyz.
+31)ProductManager'da artÄ±k ErrorResult ve SuccesResult'ta Messages daki statik sabitlerimizi Ã§aÄŸÄ±rabiliriz.
+32)IProductService te GetAll iÃ§in de IDataResult dÃ¶ndÃ¼rsÃ¼n.
+Hem data, hem mesajÄ±, hemde iÅŸlem sonucu iÃ§eren bir yapÄ±yÄ± gÃ¶revi gÃ¶rsÃ¼n.
+33) Core-Utilities-Results altÄ±nda IDataResult interface oluÅŸturalÄ±m.
+Bu IDataResult aynÄ± zamanda bir de IResult olacak Ã§Ã¼nkÃ¼ orada mesaj ve iÅŸlem sonucu da iÃ§ermektedir.
+34)IProductService'teki GetAll'da IDataResult<List<Product>> dÃ¶ndÃ¼recek.
+Add metodu IResult kalÄ±yor Ã§Ã¼nkÃ¼ o bir void metottu Data iÃ§ermiyor.
+35)ProductManager'daki interface metodlarÄ± artÄ±k IDataResult istediÄŸi iÃ§in onlarÄ± gÃ¼ncelleyeceÄŸiz.
+AyrÄ±ca return'lerde IDataResult'Ä±n somutu olan DataResult dÃ¶ndÃ¼rmeliyiz.
+Bunun iÃ§in Results folderÄ± na DataResult class Ä± oluÅŸturalÄ±m.
+Bunun Result'tan farklÄ± data da iÃ§ermesidir.
+36) DataResult, hem Result hem de IDataResult 'tÄ±r.
+37) Result iÃ§in SuccessResult ve ErrorResult yaptÄ±k;
+DataResult iÃ§in de SuccessDataResult ve ErrorDataResult yapalÄ±m.
+38)SuccesDataResult ta Ã§eÅŸitli versiyonlar oluÅŸturuyoruz.
+39)Benzer ÅŸeyleri ErrorDataResult iÃ§in de yap ve true larÄ± false yapalaÄ±m.
+40) ProductManager da return'lerde artÄ±k ErrorDataResult ve SuccessDataResult new lenecek.
+41) Program.cs'de ProductTest metodunda GetProductDetails artÄ±k IDataResult dÃ¶ndÃ¼rÃ¼yor onun iÃ§in metodun
+sonuna .Data yapalÄ±m.
+42) ProductTest'te if koÅŸullarÄ± ekliyoruz.
+43)Messages classÄ±nda MaintenanceTime ile ProductsListed'Ä± string olarak aÃ§Ä±klamasÄ±nÄ± yazalÄ±m.
+OnlarÄ± da public yap internal yerine.
 
 
-11.GÜN SONU KAYIT NOTLARI WEB API
+11.GÃœN SONU KAYIT NOTLARI WEB API
 
 Asp.net, .net projelerideki wep projesidir.
 Api, bir Restful mimariyi destekler.
-Restful mimari bizim geliştiridğimiz .net'i tanımayan sistemlerin entegre olmasını sağlayan ortamdır.
+Restful mimari bizim geliÅŸtiridÄŸimiz .net'i tanÄ±mayan sistemlerin entegre olmasÄ±nÄ± saÄŸlayan ortamdÄ±r.
 
-1) Solution üzerinde Add Project -> Asp.net core web application
-WebAPI için API'yı seçip uygun core versionumzu seçip create yapıyoruz.
+1) Solution Ã¼zerinde Add Project -> Asp.net core web application
+WebAPI iÃ§in API'yÄ± seÃ§ip uygun core versionumzu seÃ§ip create yapÄ±yoruz.
 
-2) Postmann test ortamımız.
+2) Postmann test ortamÄ±mÄ±z.
 
-3) WebAPI set as startup project yapıyoruz.
+3) WebAPI set as startup project yapÄ±yoruz.
 
-4) Controllers folder ı gelen bütün istekleri karşılar.
-Aslında bizim IProductService'teki metodlar için istek oluşturacağız.
+4) Controllers folder Ä± gelen bÃ¼tÃ¼n istekleri karÅŸÄ±lar.
+AslÄ±nda bizim IProductService'teki metodlar iÃ§in istek oluÅŸturacaÄŸÄ±z.
 
-5) İstekler http ile gelecektir.
+5) Ä°stekler http ile gelecektir.
 
-6) Controllers ta bize gelecek istekleri kodluyoruz aslında.
+6) Controllers ta bize gelecek istekleri kodluyoruz aslÄ±nda.
 
-7) Controllers folderına sağ tıkla Controllersı seç;
-API'yı seçip empty olanı ekliyoruz. API'lerde controller isimleri çoğul yazılır.
-Bu yüzden ProductsController oluşturuyoruz.
+7) Controllers folderÄ±na saÄŸ tÄ±kla ControllersÄ± seÃ§;
+API'yÄ± seÃ§ip empty olanÄ± ekliyoruz. API'lerde controller isimleri Ã§oÄŸul yazÄ±lÄ±r.
+Bu yÃ¼zden ProductsController oluÅŸturuyoruz.
 
-8) ProductsController'de artık Business'taki dataları çağıracağız.
+8) ProductsController'de artÄ±k Business'taki datalarÄ± Ã§aÄŸÄ±racaÄŸÄ±z.
 
-9) Web API'ye, add project reference yapıyoruz.
-Business, Core, DataAccess ve Entities için.
+9) Web API'ye, add project reference yapÄ±yoruz.
+Business, Core, DataAccess ve Entities iÃ§in.
 
-10) ProductsController' de Get için metod yazıyoruz List<Product> döndüren
+10) ProductsController' de Get iÃ§in metod yazÄ±yoruz List<Product> dÃ¶ndÃ¼ren
 
-11) Bir katman diğer katmanın somutuyla bağlantı kurmamalı. !!!
+11) Bir katman diÄŸer katmanÄ±n somutuyla baÄŸlantÄ± kurmamalÄ±. !!!
 
-12) IProductService'i constructor injection yapıypruz.
+12) IProductService'i constructor injection yapÄ±ypruz.
 
-13) Bundan sonra çalıştırdğımızda hata alıyoruz çünkü Web Api somut bir nesne almadığı için hangi
-manageri döndüreceğini bilmiyor oyüzden IoC devreye giriyor.
+13) Bundan sonra Ã§alÄ±ÅŸtÄ±rdÄŸÄ±mÄ±zda hata alÄ±yoruz Ã§Ã¼nkÃ¼ Web Api somut bir nesne almadÄ±ÄŸÄ± iÃ§in hangi
+manageri dÃ¶ndÃ¼receÄŸini bilmiyor oyÃ¼zden IoC devreye giriyor.
 
-14) IoC Container aslında soyut varlıklarımızın somutlarını referans olarak tutan bir liste olarak
-düşünebiliriz. Web Api'ye soyut varlığımızı refere ettiğimizde onun IoC'deki somutunun referansını döndürür.
+14) IoC Container aslÄ±nda soyut varlÄ±klarÄ±mÄ±zÄ±n somutlarÄ±nÄ± referans olarak tutan bir liste olarak
+dÃ¼ÅŸÃ¼nebiliriz. Web Api'ye soyut varlÄ±ÄŸÄ±mÄ±zÄ± refere ettiÄŸimizde onun IoC'deki somutunun referansÄ±nÄ± dÃ¶ndÃ¼rÃ¼r.
 
-15) WebApi'nin içinde Startup.cs ye gidiyoruz şimdi.
+15) WebApi'nin iÃ§inde Startup.cs ye gidiyoruz ÅŸimdi.
 
 16) services.AddSingleton<IProductService,ProductManager>();
-Sen IProductService görüyorsan bunu ProductManager new le diye ifade ederiz.
-AddSingleton'ı içinde data tutmadığımız yapılar için kullanırız.
+Sen IProductService gÃ¶rÃ¼yorsan bunu ProductManager new le diye ifade ederiz.
+AddSingleton'Ä± iÃ§inde data tutmadÄ±ÄŸÄ±mÄ±z yapÄ±lar iÃ§in kullanÄ±rÄ±z.
 
-17) Burada da ProductManager contructor'ı da içinde IProductDal içerdiği için,
-bunu da AddSingleton'da bunun EfProductDal olduğu ifade etmemiz lazım.
+17) Burada da ProductManager contructor'Ä± da iÃ§inde IProductDal iÃ§erdiÄŸi iÃ§in,
+bunu da AddSingleton'da bunun EfProductDal olduÄŸu ifade etmemiz lazÄ±m.
 
-18) Bu yapıyı farklı bir mimariye taşıyacağız.
+18) Bu yapÄ±yÄ± farklÄ± bir mimariye taÅŸÄ±yacaÄŸÄ±z.
 Autofac, Ninject, CastleWindsor, StructureMap, LightInject, DryInject -->IoC Container
 
-19) Artık AOP yapacağız.
-AOP= Bütün metodlarımızı log lamak istediğimizde kullanırız.
-Bir metodun önünde, sonunda ve ya bir metot hata verdiğinde çalışan kodları
-AOP'de yazıyoruz.  Log vb. için
+19) ArtÄ±k AOP yapacaÄŸÄ±z.
+AOP= BÃ¼tÃ¼n metodlarÄ±mÄ±zÄ± log lamak istediÄŸimizde kullanÄ±rÄ±z.
+Bir metodun Ã¶nÃ¼nde, sonunda ve ya bir metot hata verdiÄŸinde Ã§alÄ±ÅŸan kodlarÄ±
+AOP'de yazÄ±yoruz.  Log vb. iÃ§in
 
-20) Postman daki Status kısmı Server'ın ne döndürdüğünü ifade eder.
-Örneğin yetkisi olmayanlar için status 400K olur. Yni buradan alınan yanıta göre ekran
-yapılandırılacak.
+20) Postman daki Status kÄ±smÄ± Server'Ä±n ne dÃ¶ndÃ¼rdÃ¼ÄŸÃ¼nÃ¼ ifade eder.
+Ã–rneÄŸin yetkisi olmayanlar iÃ§in status 400K olur. Yni buradan alÄ±nan yanÄ±ta gÃ¶re ekran
+yapÄ±landÄ±rÄ±lacak.
 
-21) ProductController deki Get IActionResult olacak şekilde düzeltelim.
+21) ProductController deki Get IActionResult olacak ÅŸekilde dÃ¼zeltelim.
 
-22) Get metodunu result.Success ise döndüreceğimiz status için duruma göre Ok ve BadRequest olarak
-döndürelim.
+22) Get metodunu result.Success ise dÃ¶ndÃ¼receÄŸimiz status iÃ§in duruma gÃ¶re Ok ve BadRequest olarak
+dÃ¶ndÃ¼relim.
 
-23) ProductManager'da bu durumu test edelim çalıştığım saatte sistem bakımda olsun.
-Status'te ne dönecek test edelim.
+Ã‡alÄ±ÅŸtÄ±rdÄ±ÄŸÄ±mÄ±zda aÃ§Ä±lan browser da url alanÄ±na domain den sonra api/httpger ve ya post'un iÃ§ine ne yazdÄ±ysak Ã¶yle Ã§aÄŸÄ±rÄ±yoruz.
+Ã¶rneÄŸin domain/api/products/getall
 
-24) Status 400 Bad Request olarak güncellendi sonuçta.
-Çünkü ben saat 16:00'da sistem bakımda dedim.
+23) ProductManager'da bu durumu test edelim Ã§alÄ±ÅŸtÄ±ÄŸÄ±m saatte sistem bakÄ±mda olsun.
+Status'te ne dÃ¶necek test edelim.
 
-25) Şimdi post requesti yazacağız.
+24) Status 400 Bad Request olarak gÃ¼ncellendi sonuÃ§ta.
+Ã‡Ã¼nkÃ¼ ben saat 16:00'da sistem bakÄ±mda dedim.
+
+25) Åimdi post requesti yazacaÄŸÄ±z.
 
 [HttpPost]
 
-26) Post metoduna nesne olarak Product'ı verebiliriz.
+26) Post metoduna nesne olarak Product'Ä± verebiliriz.
 
-27) Post request'lerde data vermemiz lazım.
-Postman'da Post'u seçip send dedikten sonra
-Body -> raw -> JSON'ı seçelim. Burada JSON formatında Product girişi yapmamız lazım.
-Bunun için Get'ti çalıştırıp oradan gelen JSON formatını kopyalayabiliriz.
+27) Post request'lerde data vermemiz lazÄ±m.
+Postman'da Post'u seÃ§ip send dedikten sonra
+Body -> raw -> JSON'Ä± seÃ§elim. Burada JSON formatÄ±nda Product giriÅŸi yapmamÄ±z lazÄ±m.
+Bunun iÃ§in Get'ti Ã§alÄ±ÅŸtÄ±rÄ±p oradan gelen JSON formatÄ±nÄ± kopyalayabiliriz.
 
     {
         "categoryId": 1,
@@ -213,16 +216,16 @@ Bunun için Get'ti çalıştırıp oradan gelen JSON formatını kopyalayabiliriz.
         "unitPrice": 25
     }
 
-28) Bunu send ettiğimizde artık veritabanına bu bilgileri ekler.
+28) Bunu send ettiÄŸimizde artÄ±k veritabanÄ±na bu bilgileri ekler.
 
-29) Bir Get daha oluşturalım. Bunun için ilkine [HttpGet("getall")]
-ikincisine [HttpGet("getbyid")] ; post için de [HttpPost("add")]
-Metotların adını da Get=GetAll vb. yapalım
+29) Bir Get daha oluÅŸturalÄ±m. Bunun iÃ§in ilkine [HttpGet("getall")]
+ikincisine [HttpGet("getbyid")] ; post iÃ§in de [HttpPost("add")]
+MetotlarÄ±n adÄ±nÄ± da Get=GetAll vb. yapalÄ±m
 
-30) Postman'da artık GET'TE api/products/getall ; getbyid?id=1 
-POST'TA api/products/add kullanarak veri girişi yapabiliriz.
+30) Postman'da artÄ±k GET'TE api/products/getall ; getbyid?id=1 
+POST'TA api/products/add kullanarak veri giriÅŸi yapabiliriz.
 
-31) Update ve Delete içinde Post kullanılabilir.Ama update içinde HttpPut da var.
+31) Update ve Delete iÃ§inde Post kullanÄ±labilir.Ama update iÃ§inde HttpPut da var.
 
 
 
