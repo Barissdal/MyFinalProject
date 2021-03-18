@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using System.Text;
 using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
+using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
+using FluentValidation;
 
 namespace Business.Concrete
 {
@@ -19,21 +23,13 @@ namespace Business.Concrete
             _productDal = productDal;
         }
 
+        //Add metodunu ProductValidator ile validation test et
+        [ValidationAspect(typeof(ProductValidator))]
         public IResult Add(Product product)
         {
             // iş kodları
 
-            if (product.ProductName.Length < 2)
-            {
-                // magic strings
-                return new ErrorResult(Messages.ProductNameInValid);
-            }
-
             _productDal.Add(product);
-            //bunu yapabilmenin yöntemi bir tane Constructor eklemektir
-            //return new Result(true,"Ürün eklendi.");
-
-            //return new SuccessResult("Ürün eklendi.");
 
             return new SuccessResult(Messages.ProductAdded);
         }
