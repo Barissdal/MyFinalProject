@@ -224,10 +224,67 @@ POST'TA api/products/add kullanarak veri giriþi yapabiliriz.
 
 31) Update ve Delete içinde Post kullanýlabilir.Ama update içinde HttpPut da var.
 
+12.GÜN SONU KAYIT NOTLARI WEB API
+
+1) IoC altyapýsýný biraz daha ileri seviyeye taþýyacaðýz.
+
+2) .Net'in kendi IoC altyapýsý olsa da AOP tekniklerini kullanmak için
+baþka Container larla destekleyeceðiz.
+
+3) Autofac ücretsiz ve daha hýzlý olduðu için kullanacaðýz;
+Postsharp da çok iyi ama ücretlidir.
+
+4) Autofac, instance üretimini bizim için saðlayan bir yapýya sahiptir.
+
+5) Biz bu yapýlanmayý Startup.cs de yapmak yerine Back-end de yapmalýyýz.
+Çünkü baþka bir api ve ya birden fazla api kullanacaksak ilerde bunu .Net Core içerisinde Containerlarý
+kullanmamýz lazým.
+
+6) Businnes üzerinde saða týkla Manage NuGet Packages ->
+Browse -> autofac -> Autofac by Autofac Contributors -> 
+Version son sürüm kullanýlabilir
+
+7) Browse -> autofac.extras -> install
+(Java daki Spring gibi)
+
+8) Businnes ta bir klasor oluþturalým = DependencyResolvers
+
+9) DependencyResolvers'ta da Service lerin ve Interface lerin karþýlýklarýný
+autofac kullanarak belirtmiþ olacaðýz.
+
+10) DependencyResolvers' ta Autofac klasörü oluþturalým.
+
+11) Autofac içerisinde bir AutofacBusinessModule classý oluþturalým.
+
+12) BU class a sen bir Module 'sun diyeceðiz ama buradaki Module; using Autofac;
+
+13) over yaz space a baþ bekle orada ezebileceðimiz metodlarý görsterir.
+
+14) Orada Load 'ý seçiyoruz.
+
+//birisi senden IProductService isterse ona bir tabe ProductManager örneði ver.
+builder.RegisterType<ProductManager>().As<IProductService>().SingleInstance();
+builder.RegisterType<EfProductDal>().As<IProductDal>().SingleInstance();
+
+15) Startup'a gidip daha önce yaptýðýmýz AddSingleton ' larý commentleyelim.
+
+16) Bunlarýn yerine biz kendi Autofac yapýmýzý tanýtmamýz lazým.
+
+17) Bunu Web API'DE Program.cs de yapacaðýz.
+
+18) CreateHostBuilder metodunda .UseServiceProviderFactory(new AutofacServiceProviderFactory())
+
+AutofacServiceProviderFactory için install package'ý ampulden yapalým.
+
+19) .ConfigureContainer<ContainerBuilder>(builder=>
+                {
+                    builder.RegisterModule(new AutofacBusinessModule());
+                })
 
 
+20) Burada biz .Net'e kendi IoC yapýný kullanma benim AutofacBusinessModule'u kullanmalýsýn dedik.
 
-
+21) 
 
 
 
