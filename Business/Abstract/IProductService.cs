@@ -15,6 +15,7 @@ namespace Business.Abstract
         IDataResult<List<ProductDetailDto>> GetProductDetails();
         IResult Add(Product product);
         //bir ürünün detayına bakmak istediğimiz için Product döndürüyoruz.
+        IResult Update(Product product);
         IDataResult<Product> GetById(int productId);
 
     }
