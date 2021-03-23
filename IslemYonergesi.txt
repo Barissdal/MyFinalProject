@@ -568,4 +568,88 @@ tanýmlayabilirim.
 
 57) Business.DependencyResolvers.Autofac'te AutofacBusinessModule'de CategoryManager ekle
 
-58) 
+#14.GÜN DERS NOTLARI
+
+1) Add operasyonu için SecuredOperation diye bir aspect yazmak isteyeceðiz.
+
+2) Bu metotu çaðýracak kiþinin admin,editor vb. yetkilere sahip olmasý gerekebilir.
+
+3) Bu yetkilendirme ihtiyaca göre deðiþkendir.
+
+4) Operasyon bazýnda da yetkilendirme yapmamýz gerekebilir.
+
+5) Add metodunu admin yapsýn örneðin
+
+6) Claim=Bu kullanýcýnýn admin gibi claimlerinden birine sahip olmasý gerekir;
+Yani admin,editor vb. þeylere claim diyoruz.
+
+7) Api bazlý yapýlarda json bazlý bir token dan yararlanýlýr = jwt(jsonwebtoken)
+
+8) Encryption, Hashing bunlar karþý tarafýn verilerimizi okumamasýný saðlayacak yapýlar.
+
+9) Kullanýcý parolalarý hash lenir.
+
+10) Parolalar; MD5, SHA1 gibi hashleme algoritmalarýyla geri dönüþtürülemeyecek þekilde haslenir.
+
+11) Kullanýcý ama þifresini girdiðinde hashlenmemiþ halini giriyor sonuçta kullanýcý log in butonuna týkladýktan sonra
+yine hasleme algoritmasýyla o hashlenir ve veritabanýndaki hashlenmiþ verilerle karþýlaþtýrýlýr.
+
+12) Salting, kullanýcýnýn girdiði parolayý biraz daha güçlendirme iþlemi.Bunu biz kendimiz ekliyoruz.
+
+13) Encryption geri dönüþü olan veridir. Ýlgili data encrpt ediliyor ve bu da çözülebilir.
+
+14) Burada key denilen anahtarlar ortaya çýkmaktadýr.
+
+15) SeucredOperation için kullanýcýlar, kullanýcýlarýn claim leri ve bu ikisi iliþkilendirmek için 3 tabloya ihtiyaç var.
+
+16) Northwind veritabanýnda Tables'da sað click Add New Table yapalým.
+
+17) User tablosunu oluþturalým. Id alanýný sað click yapýp Properties'ten Identity alanýný true yapalým.
+
+18) Update tuþu ile update edelim ve tabomuz oluþsun.
+
+19) OperationClaims tablosu ayný þekilde oluþturalým.
+
+20) UserOperationClaims tablosu ekle.
+
+21) Þimdi bunlarýn Entity'de class larýný oluþturalým ama bunlarý bütün projelerimizde
+kullanabileceðimiz için bunlarý Core'da Entities içerisine Concrete folder ý ekleyelim.
+Burada class larý oluþturalým.
+
+22) User, OperationClaim ve UserOperationClaim class larý ekleyelim.
+
+23) Web API' de appsettings.json dosyasý var. Bu dosya WebAPI nin ayarlarýnýn olduðu yerdir.
+Burada bizde TokenOptions adýyla bir anahtar oluþturacaðýz.
+
+24) Jwt nin olmazsa olmaz alanlarýný burada yazalým.
+
+25) "Audience",Issuer, AccessTokenExpiration(bizim verdiðimiz token nýn dakika olarak geçerlilik süresi)
+SecurityKey(token için kullanýlacak anahtar ismi)
+
+30) Core'da Utilities'de Security folderý ekleyelim.
+
+31) Burada da Hashing, Encryption ve JWT klasorlerý ekleyelim.
+
+32) Hashing'te bir tane hashlame aracý yazmak için bir HashingHelper class ekleyelim.
+
+33) Bu classta iki metot olacak. Birisi hash leme yapacak ikincisi de doðrulama yapacak.
+
+34) Encryption klasorunda SecurityKeyHelper class ý ekle
+
+35) Biz bu yapýlarda herþeyi byte arrayi ile oluþturmamýz gerekir.
+
+36) Core'da Manage Nuget Packages Browse -> Microsoft.Identity -> Model.Tokens install
+
+37) SecurityKeyHelper classýndaki SecurityKey appsettings.json da tanýmladýðýmýz SecurityKey'dir.
+
+38) Encryption klasorunda SigningCredentialsHelper classý ekle
+
+39) Burada da bir güvenlik anahtarý ve þifreleme algoritmasýný tanýmlýyoruz. 
+
+40) JWT klasorunde AccessToken classý ekle
+
+41) Anlamsýz deðerlerden oluþan bir anahtar deðeri ve bir bitiþ tarihi bulunacak bu class ta
+
+42) Bu AccessToken'ý oluþturmak için bir ITokenHelper interface i oluþturalým.
+
+43) 
