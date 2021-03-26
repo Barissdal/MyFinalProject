@@ -728,3 +728,26 @@ Burada .NET'in Collection larýný toplar burada istediðimiz Interface'lerýn karþý
 73) SecuredOperations class ýnda using Microsoft.Extensions.DependencyInjection; ekle
 
 74) ProductManager da [SecuredOperation("product.add,admin")] add metoundan önce ekleyelim.
+
+75) SecuredOperation.cs 'deki IHttpContextAccessor ASP.Net içinden gelen bir yapý
+
+76) Biz bu SecuredOperation ý add metunda OnBefore da yaptýk.
+O ani kullanýcýnýn ClaimRole lerini çöz. Bu kullanýcýnýn rollerini gez eðer claimlerinin içinde
+ilgili rol varsa return et.
+
+77) Github'ta DataAccess/Abstract/IUserDal.cs kopyala 
+
+78) DataAccess.Abstract'ta class oluþtur ve kodu yapýþtýr 
+
+79) Github'ta DataAccess/Concrete/EntityFramework/EfUserDal.cs kopyala
+
+80) DataAccess.Concrete.EntityFrameWork class ekle ve kodu yapýþtýr
+
+81) NorthwindContext'te bugun oluþturduðumuz 3 tabloyu burada nesnelerini tanýtmak lazým
+        public DbSet<OperationClaim> OperationClaims { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<UserOperationClaim> UserOperationClaims { get; set; }
+
+82) EfUserDal'da context'te bir tabloyu göremiyor buna using System.Linq; ekle
+
+83) 
