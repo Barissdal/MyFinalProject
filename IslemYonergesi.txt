@@ -651,5 +651,80 @@ SecurityKey(token için kullanýlacak anahtar ismi)
 41) Anlamsýz deðerlerden oluþan bir anahtar deðeri ve bir bitiþ tarihi bulunacak bu class ta
 
 42) Bu AccessToken'ý oluþturmak için bir ITokenHelper interface i oluþturalým.
+Ýlgili kullanýcýnýn claim lerini içerecek bir token üretecek
 
-43) 
+43) Engin Demirog Github'ýndan kodlar alacaðýz
+
+44) NetCoreBackend/Core/Utilities/Security/Jwt/JwtHelper.cs  kodlarýna gelelim.
+Bu kod CreateToken metodunu implemente ediyor.
+Bir token da accessTokenExpiration olmalý token ne zaman bitecek,
+Bu süreyi Configuration dan alýyor bu da bizim Web Api deki appsettings.json dosyamýzý okur
+Security key için de appsettings.json'daki TokenOptions ý okur
+signingCredentials'ta hangi algoritmayý kullanacaðýmýzý ifade eder
+jwt üretmek için tokenOptionslar, user, signingCredentials(neyi kullanarak) ve bu user ýn claimleri
+
+Buradaki kodlarý kopyalayalým.
+
+45) Core/Utilities/Security/JWT folderýnda JwtHelper classý ekle
+
+46) Oluþan class ý iptal edip kodu yapýþtýralým.
+
+47) CreateToken içindeki User'ý çözelim önce
+
+48) IConfiguration, Microsofttan gelir bizim api mizdeki appsettings i okumaya yarar
+
+49) Burada okuduðumz deðerleri de bir nesneye atmamýz gerekir bunu da _tokenOptions'a atmaya çalýþacaðýz.
+
+50) Bu TokenOptions için Github ta NetCoreBackend/Core/Utilities/Security/Jwt/TokenOptions.cs 'deki kodu kopyala
+
+51) Core.Utilities.Security.JWT içinde TokenOptions class ý ekle ve class yerine kodu yapýþtýr.
+
+52) Core -> Manage Nuget -> Browse -> system.identity install
+
+53) Github ta Core/Extensions/ClaimExtensions.cs kodu kopyala
+
+54) .NET'te bir nesneye yeni metotlar ekleyebiliriz. Bunu da Extensions la yaparýz.
+
+55) Core'da Extensions folder ý ekle ve ClaimExtensions classý ekle
+
+56) Extensions lar hem class ýn hem metotlarýn static olmasý gerekir .NET'te
+
+57) Github ta Core/Extensions/ClaimsPrincipalExtensions.cs classý var kodu kopyala.
+Bu bir kiþinin claim lerini ararken .NET bizi uðraþtýrýr 
+Bir kiþinin jwt gelen claim lerini okumak için claimPrincipal metotu çalýþýr.
+Bir kiþinin claimlerine eriþmek için .NET'TE olan class ve bunu da Extensions ediyoruz.
+
+58) claimPrincipal? null olabileceðini gösterir.
+
+59) Core'da Extensions folderýnda ClaimsPrincipalExtensions classý ekle ve kodu yapýþtýr
+
+60) Yetkilendirme için Aspect kýsmý Business'ýn içine yazýlýr çünkü her proje için yetkilendirme deðiþebilir.
+
+61) Business'ta BusinessAspects folderý ekle ve onda da Autofac folderý ekle
+
+62) Orada da bir class ekle
+
+63) Burada ProductManager'daki Add metounda önce yetkisi var mý yok mu diye aspect yazacaðýz
+
+64) Github'ta Business/BusinessAspects/Autofac/SecuredOperation.cs kodunu kopyala
+
+65) Bizim oluþturduðumuz class yerine ekle
+
+66) Github'ta Core/Utilities/IoC/ServiceTool.cs kopyala
+Burada .NET'in Collection larýný toplar burada istediðimiz Interface'lerýn karþýlýðýný buradan alabiliriz.
+
+67) Core.Utilities'te IoC'de folder ý ekle ve class oluþtur
+
+68) Kodu buraya yapýþtýr.
+
+69) Bundan sonra bir pakete ihtiyacýmýz var. ServiceProvider. dediðimizde hiçbir metot gelmiyor
+
+70) Solutions -> Manage Nuget Packages -> Install'de Autofac'leri tekrar install yapacaðýz Business'ta olmayanlarý
+
+71) SecuredOperations class ýnda using Castle.DynamicProxy; ekle
+
+72) Business -> Manage Nuget Packages -> Browse -> Microsoft.Extensions.DependencyInjection install
+
+73) SecuredOperations class ýnda using Microsoft.Extensions.DependencyInjection; ekle
+
+74) ProductManager da [SecuredOperation("product.add,admin")] add metoundan önce ekleyelim.
