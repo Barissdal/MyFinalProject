@@ -9,6 +9,7 @@ namespace Core.Utilities.Security.Hashing
         //verilen password un hashinin oluşturacak
         //kısacası bir password verilecek ve out ile dışarıya iki değişken verecek.
         //Bunlarda HMACSHA512 algoritmasıyla Salt ve Hash oluşturulmuş olacaktır.
+        //Bunları AuthManager'da Login metodunda ihtiyacımız var.
         public static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             

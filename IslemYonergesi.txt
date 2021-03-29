@@ -767,8 +767,8 @@ aynýsýný ekle
 
 89)Github'ta  Business/Concrete/AuthManager.cs kopyala ve ekle
 
-90) AuthManager, bir kayýt olmak için gereklþ olan operasyonu yazýyor. KAYIT OLURKEN KULLANICIDAN DTO VE PASSWORD ISTERIZ,
-Bunu veritabanýna atabilmek için usur nesnesi oluþtururuz. Bunu da ekleriz.
+90) AuthManager, bir kayýt olmak için gerekli olan operasyonu yazýyor. KAYIT OLURKEN KULLANICIDAN DTO VE PASSWORD ISTERIZ,
+Bunu veritabanýna atabilmek için user nesnesi oluþtururuz. Bunu da ekleriz.
 
 91) Github'ta WebAPI/Controllers/AuthController.cs kopyala ve aynýsýný sende ekle.
 
@@ -784,4 +784,41 @@ Microsoft.AspNetCore.Authentication.JwtBearer 3.1.12 version install yap
 95) Startup'ta app.UseAuthentication(); ekliyoruz middleware denilmekte bunlara.
 Neye ihtiyacýmýz varsa onu araya ekliyoruz
 
-96) 
+96) Öncelikle sisteme bir user ý register eklemeye çalýþalým.
+
+97) Bundan önce Startup'ta cors yapýsýný düzenleyelim. Bu güvenlikle alakalý bir durumdur.
+ConfigureService metodunda AddCors ekliyoruz.
+
+98)         services.AddCors(options =>
+            {
+                options.AddPolicy("AllowOrigin",
+                    builder => builder.WithOrigins("http://localhost:4200"));
+            });
+
+99) Sonra da middleware lere 
+app.UseCors(builder => builder.WithOrigins("http://localhost:4200").AllowAnyHeader());
+ekle
+
+100) Register yaptýk sonra login yaparken þifre hatalý demektedir.
+
+101) Böyle bir durumda output'a bakýp nedeni araþtýrabiliriz.
+Ya da breakpont ekleyerek bakabiliriz.
+
+102) F11 ile adým adým geçebiliriz breakpoint ten sonra
+
+103) HashingHelper'da bir hata bulduk.
+
+104) User's tablosunda PasswordHash tipini deðiþtirmemiz gerekiyor login'de sorun olmamasý için
+
+CREATE TABLE [dbo].[Users] (
+    [Id]           INT          IDENTITY (1, 1) NOT NULL,
+    [FirstName]    VARCHAR (50) NOT NULL,
+    [LastName]     VARCHAR (50) NOT NULL,
+    [Email]        VARCHAR (50) NOT NULL,
+    [PasswordHash] VARBINARY (500) NOT NULL,
+    [PasswordSalt] VARBINARY (500) NOT NULL,
+    [Status]       BIT          NOT NULL,
+    PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+105) 

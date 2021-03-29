@@ -14,6 +14,7 @@ namespace Core.Utilities.Security.JWT
 {
     public class JwtHelper : ITokenHelper
     {
+        //configuration dosyasını okuyacağız
         public IConfiguration Configuration { get; }
         private TokenOptions _tokenOptions;
         //accessoken ne zaman geçersiz olacak
@@ -30,10 +31,13 @@ namespace Core.Utilities.Security.JWT
         {
             _accessTokenExpiration = DateTime.Now.AddMinutes(_tokenOptions.AccessTokenExpiration);
             var securityKey = SecurityKeyHelper.CreateSecurityKey(_tokenOptions.SecurityKey);
+            //securityKey ile bir hashlame yapacağız.
             var signingCredentials = SigningCredentialsHelper.CreateSigningCredentials(securityKey);
             // bu metodu aşağıda kendimiz yazdık
             var jwt = CreateJwtSecurityToken(_tokenOptions, user, signingCredentials, operationClaims);
+            //token i elimizdeki bilgilere göre Handler vasıtayısla yazmamız gerekir.
             var jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
+            //writetoken ile string e çevirmiş olduk.
             var token = jwtSecurityTokenHandler.WriteToken(jwt);
 
             return new AccessToken
