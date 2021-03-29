@@ -750,4 +750,38 @@ ilgili rol varsa return et.
 
 82) EfUserDal'da context'te bir tabloyu göremiyor buna using System.Linq; ekle
 
-83) 
+83) Github'ta Business/Abstract/IUserService.cs kopyala
+Aynýsýný sende ekle
+
+84) Github'ta Business/Abstract/IAuthService.cs kopyala
+Aynýsýný sende ekle; burada iki tane Dto var onlarý da Github'tan alýcaz
+
+85) Entities/Dtos/UserForLoginDto.cs kopyala
+aynýsýný ekle
+
+86) Entities/Dtos/UserForRegisterDto.cs koyapala ve ekle
+
+87) Bu iki class kayýt ol ve login ol kýsýmlarýný tamamlayacaklar
+
+88) Github'ta Business/Concrete/UserManager.cs  kopyala sende ekle
+
+89)Github'ta  Business/Concrete/AuthManager.cs kopyala ve ekle
+
+90) AuthManager, bir kayýt olmak için gereklþ olan operasyonu yazýyor. KAYIT OLURKEN KULLANICIDAN DTO VE PASSWORD ISTERIZ,
+Bunu veritabanýna atabilmek için usur nesnesi oluþtururuz. Bunu da ekleriz.
+
+91) Github'ta WebAPI/Controllers/AuthController.cs kopyala ve aynýsýný sende ekle.
+
+92) Business/DependencyResolvers/Autofac/AutofacBusinessModule.cs'de yeni oluþturduðumuz
+UserManager, AuthManager gibi yapýlarý tanýtmamýz lazým.
+
+93) Github'ta WebAPI'de Startup.cs 'de var tokenOptions ile bu sistemde jwt kullanýlacak diyoruz.
+43-58 arasýný kopyala kendi tarafýnda yapýþtýr.
+
+94) JwtBearerDefaults için WebAPI'de ManageNugetPackages -> Browse -> 
+Microsoft.AspNetCore.Authentication.JwtBearer 3.1.12 version install yap
+
+95) Startup'ta app.UseAuthentication(); ekliyoruz middleware denilmekte bunlara.
+Neye ihtiyacýmýz varsa onu araya ekliyoruz
+
+96) 
