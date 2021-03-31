@@ -821,4 +821,75 @@ CREATE TABLE [dbo].[Users] (
     PRIMARY KEY CLUSTERED ([Id] ASC)
 );
 
-105) 
+# 15.GÜN DERS NOTLARI
+
+1) Core'da Utilities' IoC folderýnda tüm uygulamalarýmýzý ilgilendiren injection lar için
+burada oraya ICoreModule interface i ekle
+
+2) Burada load metotu oluþturalým.
+
+3) Core'da DependencyResolvers folderý ekle ve burada CoreModule classý ekleyelim
+
+4) Bu Class bir ICoreModule clasýý, burada Load'ýn ne yapacaðýný oluþturalým.
+
+5) Startup'ta services.AddDependencyResolvers(); ekle
+
+6) CoreModule gibi baþka modülleri eklemek için yapýyoruz
+
+7) Bunu yapabilmek için IServiceCollection için AddDependencyResolvers extension ný yapmak lazým
+
+8) Core Extension'a ServiceCollectionExtensions class ekle
+
+9) Startup'ta services.AddDependencyResolvers(new ICoreModule[] { 
+                new CoreModule()
+            } );
+
+10) Register ve login olduktan sonra oluþturulan token ile products eklemeye çalýþtýðýmýzda
+yetkiniz yok hatasý alýrýz çünkü ProductManager'da [SecuredOperation("product.add,admin")] yetkisi istiyor
+
+11) Kullanýcýlara claim ler eklememiz gerekiyor
+
+12) OperationClaims'e view data deyip ekleme yapalým
+
+13) UserOperaiotnClaim'de kullanýcýlara claim verelim
+
+14) Cache sistemi yazacaðýz artýk
+
+15) Cache için istediðimiz kadar süre verebiliriz.
+Bir ürün güncellenmesi / silinmesinde de cache in uçurulmasý gerekmektedir.
+
+16) Cache lemek istediðimiz data yý key,value olarak tutarýz
+ve farklý parametrekere göre de bu yapýyý oluþturacaðýz.
+
+17) Core'da CrossCuttingConcers'ta Caching folderý ekle
+
+18) Caching için .Net'te olan InMemory'i kullanacaðýz
+
+19) Caching'te ICacheManager interface i ekleyelim
+
+20) Bu interface in implementasyonunu yapalým.
+Caching'te Microsoft folderý ekle ve bir class oluþtur
+MemoryCacheManager.cs
+
+21) Core.DependencyResolvers , CoreModule'da ICacheManager'ýn collection 'ný tanýtmak lazým
+
+22) serviceCollection.AddSingleton<ICacheManager, MemoryCacheManager>();
+
+23) serviceCollection.AddMemoryCache(); bunu da ekle
+Bunu yapýnca IMemoryCache _memoryCache; için injection gerçekleþmiþ olur
+
+24) MemoryCacheManager' da bir constructor yapýsý kuaracaðýz
+
+25) using Microsoft.Extensions.DependencyInjection; ekleyelim sonra da
+
+public MemoryCacheManager()
+        {
+            _memoryCache = ServiceTool.ServiceProvider.GetService<IMemoryCache>();
+        }
+
+26) MemoryCacheManager'da RemoveByPattern için Github'ta
+Core/CrossCuttingConcerns/Caching/Microsoft/MemoryCacheManager.cs dan koypala ve yapýþtýr
+
+27) _cache yerine _memoryCache yapalým.
+
+28) 
