@@ -892,4 +892,64 @@ Core/CrossCuttingConcerns/Caching/Microsoft/MemoryCacheManager.cs dan koypala ve
 
 27) _cache yerine _memoryCache yapalým.
 
-28) 
+28) Sektörde ICacheManager'ý ProductManager da injection yaparlar.
+GetAll metodun içinde cache için IsAdd metodunu test eder
+Cache te yoksa da git cache ekle diye yapý kurarlar ama bunu her bir metotda yazmak lazým
+Onun yerine bir tane Aspect yazarak gerçekleþtireceðiz
+
+29) Bunun için bir tane Aspect yazacaðýz
+
+30) Github'ta Core/Aspects/Autofac/Caching/CacheAspect.cs kopyala
+
+31) Burada metot için bir key oluþturuyoruz varsa onun parametrelerini de alýyoruz
+string.Join metoduyla parametrelerin her biri için methot ismi ile parametreleri birleþtiriyoruz
+Daha sonra bellekte cache var mý diye kontrol ediyoruz yoksa metotun çalýþmasýný devam ettirip
+sonra da cache oluþturuyoruz.
+
+32) Bizde Core -> Aspects -> Autofac -> Caching folderý ekle ve class oluþtur.
+Class yerine kopyaladýðýmýzý yapýþtýralým
+
+33) using Microsoft.Extensions.DependencyInjection; ekleyelim sonra da
+
+34) ProductManager'da GetAll ve GetById metodundan önce [CacheAspect] ekleyelim.
+CacheAspect.cs 'de if (_cacheManager.IsAdd(key)) için breakpoint ekleyelim
+Uygulmamýzý çalýþtýralým ve adým adým takip edelim key ler ve argumanlarýn nasýl geldiðini
+
+35) Her metodun üzerine CacheAspect eklenmez
+Çok kullanýlan metotlar için eklenir
+
+36) Github'ta Core/Aspects/Autofac/Caching/CacheRemoveAspect.cs kopyala ve sende ekle
+
+37) CacheRemoveAspect, datamýz deðiþtiði zaman çalýþacak Aspect'tir.
+
+38) using Microsoft.Extensions.DependencyInjection; ekleyelim sonra da
+
+39) ProductManager'da Update öncesinde [CacheRemoveAspect("IProductService.Get")] diyelim
+Buradaki mantýk ürünü update ettiðimizde Get içeren tüm keyleri iptal et deriz.
+
+40) Bunu add ve delete de ekleriz.
+
+41) IProductService'de IResult AddTransactionalTest(Product product); ekleyelim.
+Transaction'ý uygulamalarda tutarlýlýk olmasý için uygularýz.
+Ayný süreçte iki tane veritabaný iþi olduðu zamanki durumlarda kullanýrýz.
+
+42) ProductManager'da bu metotu implemet edelim.
+
+43) Bu metotdan önce bir transactionaspect yapacaðýz
+
+44) Github'ta Core/Aspects/Autofac/Transaction/TransactionScopeAspect.cs  kopyala
+ve uygulamamýzda yapýþtýralým.
+
+45) Sistemimizin performans durumuna bakmak için de Performance aspect yapýsý kuracaðýz
+
+46) Core.DependencyResolvers CoreModule'a ;
+services.AddSingleton<Stopwatch>(); ekleyelim.
+
+47) Github'ta Core/Aspects/Autofac/Performance/PerformanceAspect.cs kopyala ekle
+
+48) using Microsoft.Extensions.DependencyInjection; ekleyelim sonra 
+
+49) ProductManager'da GetById metodundan önce [PerformanceAspect(5)] ekleyelim
+Bu metodun çalýþmasý 5 saniyeyi geçerse uyar diyoruz
+
+50) 

@@ -16,7 +16,9 @@ namespace Business.Abstract
         IResult Add(Product product);
         //bir ürünün detayına bakmak istediğimiz için Product döndürüyoruz.
         IResult Update(Product product);
+        IResult Delete(Product product);
         IDataResult<Product> GetById(int productId);
+        IResult AddTransactionalTest(Product product);
 
     }
 }
