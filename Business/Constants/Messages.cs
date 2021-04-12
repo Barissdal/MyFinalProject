@@ -26,6 +26,6 @@ namespace Business.Constants
         public static string AccessTokenCreated = "Access token başarıyla oluşturuldu";
 
         public static string ProductUpdated = "Ürün güncellendi.";
-        internal static string ProductDeleted;
+        public static string ProductDeleted = "Ürün silindi.";
     }
 }

@@ -952,4 +952,736 @@ services.AddSingleton<Stopwatch>(); ekleyelim.
 49) ProductManager'da GetById metodundan önce [PerformanceAspect(5)] ekleyelim
 Bu metodun çalýþmasý 5 saniyeyi geçerse uyar diyoruz
 
-50) 
+# 16. GÜN DERS NOTLARI
+
+1) Node.js => javascript kodlarýnýn Back-end de çalýþtýrmasýna da yarar ama biz ;
+
+Node npm ve test ortamý için LifeServer imkaný saðlamar biz bu amaçlar için kullanacaðýz
+
+2) Visual Studio Code'u açalým.
+
+3) angular.io/cli adresine gidelim. Burada aþaðýdaki kodu kopyalayalým
+npm install -g @angular/cli
+
+4) angular daki bileþenleri hýzlýca sisteme dahil etmek için 
+
+5) VS Code Terminal -> New Terminal -> Comment Promt deyip aþaðýda + ya basalým
+
+6) Kopyaladýðýmýzý terminal de yapýþtýralým
+
+7) burada npm paketlerini global olarak kuruyoruz bir daha angular projelerinde node bu paketleri artýk
+tanýyor olacaktýr
+
+8) C dizininde kamp-frontend folderý ekle
+
+9) Terminalde cd.. cd.. deyip cd kamp-frontend e gidelim
+
+10) ng new northwind diyelim ve y diyelim
+
+11) Angular'da Routing(sayfalar arasý gezinti) denilen bir durum için de y diyelim
+
+12) CSS içinde Enter yapalým
+
+13) cd northwind yapalým Terminal'de
+
+14) code . dediðimiz zaman ilgili klasoru visual studio code ' da aç demektir
+
+15) ng serve = node u kullanarak yayýna al
+ng serve --open bir tarayýcý da aç
+
+16) ng serve --open --port 4201 deyip bu port ta yayýnla diyebiliriz
+
+17) Angular, React => SPA yani tek sayfalýk uygulamalardýr
+
+18) node_modules klasoru tüm angular paketlerimizi içeren klasordur
+
+19) Baþkasýnýn angular projesini almak için npm install yazýlýr
+
+20) Bu paketlerin ne olduðunu da package.json dosyasýnda bilinir
+
+21) burada dependencies paketleri kullanýcýnýn göreceði uygulamalar için
+Devdependencies ise yazýlým geliþtiricisinin kullanacaðý uygulamalar için paketlerdir
+
+22) src klasoru projemizin kaynak kodlarýný içeren klasordur
+
+23) src -> app klasorunde uygulama kodlarýmýz yer alýr
+
+24) index.html'te <app-root> tag i var bu angular tarafýndan tanýlan bir component
+
+25) app klasorunde sað týkla new folder de ve components adýný ver
+
+26) app.component.ts bizim componentimizdir(datayý yönettiðimiz yer) ve app.component.html'de bizim page tarafýmýzdýr bunlar birbiryle baðlantýlýdýr
+
+27) app.component.html'de <router-outlet></router-outlet> dýþýndakileri silelim File -> Save all diyelim
+
+28) Terminal de Control+C dediðimizde yayýný durdururuz
+
+29) Angular, React vb. frameworkler ile dinamik bir yapý kuruyoruz çünkü veri tabanýndan verilerimizi alacaðýz Restful servise baðlanýp yapacaðýz
+
+30) Bu datayla ilgili kýsýmlarý da app.component.ts'de yöneteceðiz.
+
+31) @Component deyince AppComponent'te sen bir componentsin deriz ve templateUrl ile hangi sayfanýn componenti olduðunu belirtiriz
+
+32) index.html'deki app-root tag i @Component'deki selector den gelmektedir. 
+
+33) styleUrls'te css'lerin olduðu yer bu [] arasýnda yazýlýr ve array demektir.
+
+34) title:string veri tipi tanýmlama
+
+35) component teki title ý sayfaya getimek için html de {{title}} dememiz yeterli olacaktýr.
+
+36) product:any demek product her veri türünden olabilir demektir.
+
+37) Javascript küçük büyük harf duyarlýdýr.
+
+38) *ngFor Angular için Directive yapýsýdýr. Ýlgili html elementini manipule etmemize yarar. Burada ngFor ile tekrarlama kuralý kuracaðýz.
+Ürünümüz kadar li tag i çalýþsýn
+
+39) <li *ngFor="let product of products"></li> bildiðimiz foreach yapýsýdýr
+
+40) app new folder directives adýný ver
+
+41) burada kendi directive lerimizi yapmak için
+
+42) ngFor da bir directive dir
+
+43) Artýk componentlerimizi oluþturacaðýz. Folder'da sað click Open in Terminal Integrated diyelim
+
+44) Terminal de ng g component product = g burada generate demek  yani angular kodumuzu product adýyla component oluþtur demektir
+
+45) ng g component category yapalým bir de ng g component navi(sayfamýzdaki navigate bar için) yapalým
+
+46) Module birbiriyle iliþkin bileþenleri topladýðýmýz yerdir.
+
+47) app.module.ts 'de bizim eklediðimiz componentler burada otomatik olarak eklenir.
+
+48) index.html'de component  hiyerarþisi düzenlenir.
+
+49) Component leri nasýl kullanýyoruz ona bakalým app.component.html'de daha önce yazdýðýmýz kodlarý ctrl+K ctrl+C ile comment yapalým
+
+50) product component imizin selectoru app-product olarak otomatik düzenlenir bunu burada çaðýrýrýz
+
+51) 
+<app-navi></app-navi>
+<app-category></app-category>
+<app-product></app-product>
+
+52) getbootstrap.com twitter tarafýndan geliþtirilmiþ css geliþtirme tool kiti (get started diyip inceleyebiliriz)
+
+53) Burada components larda navbar a bakalým onun örnek kodunu kopyalayalým
+
+54) navi de navi.component.html'de herþeyi sil ve bu kodu yaðýþtýralým
+
+55) bunu yaptýðýmýzda node.module'da da bununla ilgili yapýlarýn kurulmasý lazým oyüzden terminal de
+npm install bootstrap yapalým
+
+56) Bu css'i bizim sayfamýzda çalýþtýrmak için angular.json dosyamýza gidelim.
+
+57) styles'ta uygulamamýzda geçerli olacak styles leri tanýtacaðýz
+
+58) "./node_modules/bootstrap/dist/css/bootstrap.min.css"
+
+59) yeni bir paket yüklediðimizde terminaldaki node çalýþmasýný durdurup bir daha yayýna almak lazým çünkü bootstrap paketini install yapmýþtýk
+
+60) app.component.ts'de product tanýmlamasý yaptýðýmýz kodlarý keselim component te product ta product.component.ts dosyasýna yapýþtýralým 10 satýra
+
+61) product.component.html de bir table oluþturalým
+
+62) <table class="table">
+  <tr *ngFor="let product of products">
+    <td>{{product.productId}}</td>
+    <td>{{product.productName}}</td>
+    <td>{{product.categoryId}}</td>
+    <td>{{product.unitPrice}}</td>
+  </tr>
+</table>
+
+63) Extensions'a týklayýp arama çubuðuna bracket pair colorizer ve prettier-code formatter install yapalým
+
+# 17. GÜN DERS NOTLARI
+
+1) getbootstrap.com'daki version v5.0.0-beta3 versiyonunu kopyalayýp terminalde cmd npm install bootstrap@v5.0.0-beta3 yazalým
+
+2) app.component.html de bir div tag i ekleyelim app ile baþlayan tag leri de bu div in içinde çaðýralým
+
+3) Sayfamýzda navbar ýn altýnda solda kategoriler saðda ürünler olsun istiyoruz. Bunun için row mantýðýný kullanacaðýz
+
+4) Yukarda oluþturduðumuz div içersinde yeni div class="row" css clasý ý ile bunu gerçekleþtirelim.Diðer iki app tagi için iki tane div tanýmlayalým bu sayfayý 12 eþit parçaya böler
+
+5) Kategoriler olan bölüm 12'nin 3 ünü kapsasýn, ürünler 9 parçayý kapsasýn. Bunun için div class="col-md-3" ve div class="col-md-9" olarak tanýmlayalým.
+
+6) https://www.creative-tim.com/ sitesinde angular için ücretsiz yapýlar bulunmakta.
+
+7) getbootstrap.com da kategorileri listelemek için list gruptaki kodu kopyalayalým
+
+8) Bu kodu category compenet hmtl ine yapýþtýralým.
+
+9) Bir front-end api'den gelen datayý çok iyi yorumlamak gerekir. Ýlk olarak bu api bize ne döndürüyor onu tespit etmemiz gerekir.
+
+10) Biz projemizdeki products larý karþýlamak için nesne tanýmlamamýz gerekir.
+Buna ClientModule diyoruz. app de new folder diyip models klasoru oluþturalým.
+
+11) Burada product.ts adýyla file oluþturalým. Burada product için interface oluþturacðýz.Buradaki durum biraz daha sýnýrlandýrma iþlemleri tanýmlanýyor.
+
+12) Burada interface adlarýnýn önüne I harfini eklemiyoruz.
+
+13) product component ts de artýk product nesnesine sen bir Product arrayi sin diyebiliriz.
+
+14) models klasorunde productResponseModel.ts file ý ekleyelim.
+
+15) Gelecek datayý karþýlayacak model oluþturuyoruz.
+
+16) models klasorunde responseModel.ts file ý ekleyelim. Burada productResponseModel'deki tanýmlamalarý burada yapacaðýz artýk tekrarlamamak için diðer durumlarda
+
+17) ProductResponseModel'e extends deyip ResponseModel yapabiliriz
+
+18) Ayný iþlemleri category içinde yapalým
+
+19) ResponseModel bizim temelimiz success ve message tutan nesnemiz; diðer nesnelerimizde bunu inhert ediyoruz.
+
+20) ProductComponent OnInit implementi ettiðimiz için ngOnInit'in yazýlmasý gerekir. Bu compenent açýldýðýnda çalýþan kod parçacýðýdýr.
+
+ngOnInit(): void {
+    console.log("Init çalýþtý.")
+  } yazdýðýmýzda bworser da F12 yaptýðýmýzda console sekmesinde Init çalýþtý çýktýsýný görürüz.
+
+21) Þimdi product larý almak için component te metot yazmaya baþlayalým.
+
+22) javascript te normalde void yok bunu ts yapar
+
+23) Api ye baðlanabilmek için httpClient nesnesi vasýtasýyla bunu kurabiliyoruz.
+
+24) product.component.ts de import {HttpClient} from '@angular/common/http
+HttpClient'ý kullanabilmek için constructor da bunu implement etmemiz lazým.
+
+25) getProducts(){
+    this.httpClient.get<ProductResponseModel>(this.apiUrl)
+  }
+
+  gelen datayý ProductResponseModel ile map eder.
+
+26) apiUrl bizim get kýsmýmýzdan gelen url
+
+27) Sonra bunu subscribe ile abone olalým diyoruz. Gelen yanýtý response atýyoruz.
+
+28) ngOnInit metounda artýk getProducts metodunu çaðýrabiliriz.
+
+29) Backend'de Autofac te belirttiðimiz gibi burada da HttpClient ý tanýtmamýz lazým
+
+30) app klasorunde app.module.ts'de declarations'ta bunu eklememiz lazým
+
+31) Bu yüzden önce import {HttpClientModule} from '@angular/common/http' eklemek lazým.
+Bunu da imports ta eklemek lazým. Çünkü bunu biz yazmadýk dýþardan alýyoruz.
+
+32) Eðer bir api den istek yapmaya çalýþtýðýmýzda CORS hatasý alýrsak backend tarafýnda api'ye eriþebilmek için gerekli configuration yapýlmamýþ demektir.
+
+33) Startup.cs'de 
+services.AddCors(options =>
+            {
+                options.AddPolicy("AllowOrigin",
+                    builder => builder.WithOrigins("http://localhost:4200"));
+            }); yoksa ekleyelim
+
+34) prdocut.compononet.html'de bir baþlýk verelim bunu thead taginin için tr ve th ile yaparýz
+
+35) Burada datamýzýn tablo çýktýsýnda sayfamýzda tablo kolonlarýna baþlýk vermemizi saðlamaktadýr.
+
+36) getProducts için yaptýðýmýz metotta her bir component için tekrarlamak yerine Angular'da bu yapýlarý Service mimarisiyle backkend deki gibi yapacaðýz.
+
+37) app de services klasoru ekleyelim.
+
+38) Bu klasore terminalde yerleþmek için sað clik open in integrated terminal diyelim.
+
+39) Terminalde ng g service product diyelim bize product service oluþturacak
+
+40) Angular'da @Injuctable yapýsý servis kullanýldýðýný gösterir.
+
+41) product.component.ts de private httpClient: HttpClient yapýsýný keselim product.service.ts'deki constructor a yapýþtýralým
+
+42) getProducts metodunu da kopyalayým ve product.service.ts ye yapýþtýralým.
+
+43) Gerekli import larý burada da tanýmlayalým ve diðer taraftaki apiUrl i burada constructordan önce tanýmlayalým
+
+44) product.service.ts'de 
+getProducts() {
+    this.httpClient.get<ProductResponseModel>(this.apiUrl);
+  }
+  olarak tanýmlarýz. Bu bir Observable döndürüyor.
+45) Dolayýsýyla bu metodu artýk Observable deðer döndüren bir metot olarak tanýmlayabiliriz
+getProducts():Observable<ProductResponseModel> {
+    return this.httpClient.get<ProductResponseModel>(this.apiUrl);
+  }
+
+46) product.component.ts'de constructor ýn içinde artýk ProductService i inject yapabiliriz.
+
+47) Bir service i kullanabilmek için bu hareketi yapmamýz gerekir.
+
+constructor(private productService:ProductService) {}
+
+48) product.component.ts'de getProducts metodunu artýk subscribe yapabiliriz.
+
+49) Back-end asekron çalýþtýðý için burada subscribe yapýsý kullanýlýr.
+
+50) subscribe yapýsý asekronda iþlerin sýrayla yapýlmasýný saðlamaktadýr çok önemli
+
+51) getbootstrap.com da spinner dan bir spin alalým.
+
+52) prodcut.component.html de table dan önce spinner kodunu yapýþtýralým
+
+53) Ancak bu spinner iþlemini data yüklü deðilse yapmasýný istiyoruz onun içinde ngIf yapýsýný kullanýyoruz.
+
+54) <div *ngIf="dataLoaded==false" class="spinner-border text-primary" role="status">
+  <span class="visually-hidden">Loading...</span>
+
+55) Bu spinner ý daha rahat görmek için backend de controller da getall metotunda 
+Thread.Sleep(5000); yapalým.
+
+56) Tablodaki kolon adlarý da veri yüklendikten sonra gelsin diyebiliriz ayný þekilde if yapýsýyla
+
+
+#18.GÜN DERS NOTLARI
+
+1) models da category ve product için bir ResponseModel inherit ediyorduk bunu refactor edeceðiz.
+
+2) models da listResponseModel.ts file oluþturalým.
+
+3) 
+export interface ListResponseModel<T>{
+  data:T[];
+}
+
+4) T yerine hangi nesneyi verirsek artýk data o olacaktýr.
+
+5) Bizim artýk categoryResponseModule ve productResponseModele a ihtiyacýmýz yok onlarý silelim.
+
+6) product.service.ts'de artýk yeni list modulemuzu import ve constructor da injection yapmalýyýz.
+
+7) product.component.ts'de productresponsemodel importunu silelim.
+
+8) Ürünleri listelediðimiz gibi kategorileri de listeleyeceðiz.
+
+9) Bunu category.componenet.ts'de bir categories arrayi oluþturmalýyýz.
+
+10) Product için yazdýðýmýz service category içinde yazacaðýz
+
+11) services klasorunda sað clik open in integrated terminal deyip ng g service category
+
+12) spec.ts dosyalarý unit test yapmak içindir onlarý silebiliriz.
+
+13) service lerde de bir url alýrýz httpClient'i injection yaparýz , Product yerine Category ekleriz dolayýsýyla burasý da refactor edilebilir.
+
+14) category.service.ts
+
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Category } from '../models/category';
+import { ListResponseModel } from '../models/ListResponseModel';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class CategoryService {
+
+  apiUrl = 'https://localhost:44389/api/categories/getall';
+  constructor(private httpClient: HttpClient) { }
+
+  getCategories():Observable<ListResponseModel<Category>> {
+    return this.httpClient.get<ListResponseModel<Category>>(this.apiUrl);
+  }
+}
+
+15) Backend 'de category için controller eklememiz lazým.
+
+16) CategoriesController'da bir ICategoryService injection yapýldýðý için AutofacBusinessModule'da bu service in tanýtýlmasý gerekmektedir. Bunu kontrol etmek gerekir.
+
+17) models'de listResponseModel.ts'de extends ResponseModels yapmamýz lazým success ve message bilgileri de api den geldiði için.
+
+18) Artýk category verilerimize eriþebiliyoruz þimdi componenet yapýsýnda verilerimizin gösterimiyle ilgileneceðiz. Bu veritabanýnda gelen verinin yönetimini componenet.ts'de tasarlayalým.
+
+19) category.componenet.ts
+
+import { Component, OnInit } from '@angular/core';
+import { Category } from 'src/app/models/category';
+import { CategoryService } from 'src/app/services/category.service';
+
+@Component({
+  selector: 'app-category',
+  templateUrl: './category.component.html',
+  styleUrls: ['./category.component.css']
+})
+export class CategoryComponent implements OnInit {
+
+  categories : Category[]=[];
+  constructor(private categoryService:CategoryService) { }
+
+  ngOnInit(): void {
+    this.getCategories();
+  }
+
+  getCategories() {
+    this.categoryService.getCategories().subscribe(response=> {
+      this.categories=response.data
+      //this.dataLoaded=true;
+    })
+  }
+
+}
+
+
+20) Artýk bunun html'ini de yazabiliriz.
+
+21) category.componenet.html'de li leri tekrarlamamýz gerekecektir.
+
+<ul class="list-group">
+  <li *ngFor="let category of categories" class="list-group-item">{{category.categoryName}}</li>
+</ul>
+
+22) Bundan sonraki adýmda category menüsünde herhangi bir kategori seçildiðinde ürün listesi o kategorideki ürünler gelmesi üzerine yoðunlaþýcaz. Bu konu Angular Rooting kapsamýnda deðerlendirilmektedir.
+
+23) src -> app -> app.componenet.html'deki router-outlet'i kesip app-product olan yer yerine yapýþtýralým.
+
+24) Bu router yapýsýný app-routing.module.ts'de düzenlenir.
+
+25) 
+const routes: Routes = [
+  {path:"", pathMatch:"full", component:ProductComponent},
+  {path:"products", component:ProductComponent}
+];
+
+26) Burada pathMatch'i path'te hiç bir þey ilk etapta vermediði için anasayfamýzý göstermek için kullanýlýyor.
+
+27) Þimdi artýk kategoriye göre filtreleme yapmak istiyoruz.
+
+28) category.componenet.html'de aslýnda bir týklama iþlemi yapmak istiyoruz. Bunun için
+<ul class="list-group">
+  <li (click) = "setCurrentCategory(category)" *ngFor="let category of categories" class="list-group-item">{{category.categoryName}}</li>
+</ul>
+
+29)  category.componenet.ts'de setCurrentCategory fonksiyonun yazalým
+setCurrentCategory(category:Category) {
+    console.log(category.categoryName)
+  }
+
+30) Html'de console'da kategorilere týkladýktan sonra kategori isimleri geliyor. Þimdi ts'de bu kategoriler ile iþlem yapabilmek için kod yazalým.
+
+31) Önce ts.config.json'da strict'ten sonra "strictPropertyInitialization": false, eklersek herhangi bir nesneyi yeni bir objeye atarken new lemek zorunda kalmayýz.
+
+32) category.componene.ts'de currentCategory'i tutmak için düzenleme yapýyoruz ve setCurrentCategory'de bu yapýyý kullanýyoruz.
+
+33) Angular öncelikle html yapýsýný çalýþtýrýr sonra verilerinizi getirecektir. Uygulamayý ilk kez çalýþtýrdýðýmýzda henüz bir kategoriye týklamadýðýmýz için kategori tablosu ilk önce boþ gelir týkladýðýmýzda verileri getirir.
+
+34) Burada Angular'a eðerki bu kategori dolu deðilse bunu render etme.
+
+34) Bunun için html'de 
+<ul class="list-group">
+  <li (click) = "setCurrentCategory(category)" *ngFor="let category of categories"
+   class="list-group-item">{{category.categoryName}}</li>
+</ul>
+
+<h5 *ngIf="currentCategory">{{currentCategory.categoryName}} seçtiniz</h5>
+yapýsýný kullanýrýz.
+
+35) Seçtiðimiz kategorileri tabloda seçildiðinin belirgin olmasýný istiyoruz ve onu seçtiðim zaman css'i ni deðiþtirmek te istiyoruz. Bunu li tag in de class="list-group-item active" yapýsý ile kurarýz ama bunu bütün kategori tablosu için aktive yapar biz hangi kategori seçildiyse onun için yapmak istiyoruz.
+
+36) Bunun için componenet'te bir metod yazabiliriz.
+getCurrentCategoryClass(category:Category) {
+    if(category == this.currentCategory) {
+      return "list-group-item active"
+    }else{
+      return "list-group-item"
+    }
+  }
+
+37) html'de li tag indeki class bir metod kullanacaðý için bu class 'ý köþeli parantez içerisinde yazmamýz gerekir.
+
+38) 
+<ul class="list-group">
+  <li (click) = "setCurrentCategory(category)" *ngFor="let category of categories"
+   [class]="getCurrentCategoryClass(category)">{{category.categoryName}}</li>
+</ul>
+
+<h5 *ngIf="currentCategory">{{currentCategory.categoryName}} seçtiniz</h5>
+
+39) Þu anda kategoride týkladýðým zaman hangi kategoriye týkladýðýmý görebiliyorum þimdi ise bu kategori için veriyi getirmesini isteyeceðiz.
+
+40) Bunun için routerLink yapýsý devreye girecektir. 
+<ul class="list-group">
+  <li
+    (click)="setCurrentCategory(category)"
+    routerLink = "/products/category/{{category.categoryId}}"
+    *ngFor="let category of categories"
+    [class]="getCurrentCategoryClass(category)"
+  >
+    {{ category.categoryName }}
+  </li>
+</ul>
+
+<h5 *ngIf="currentCategory">{{ currentCategory.categoryName }} seçtiniz</h5>
+
+41) Artýk bu routerLink'leri tanýmlayacak yapýlarý kurmamýz gerekmektedir.
+
+42) Bizim burada prodoct componenet'i ne bir kategori parametresi göndermemiz gerekir.
+
+43) Bu rout configurasyonun app-routing.module.ts'de yapýyorduk;
+const routes: Routes = [
+  {path:"", pathMatch:"full", component:ProductComponent},
+  {path:"products", component:ProductComponent},
+  {path:"products/category/:categoryId", component:ProductComponent}
+];
+
+44) Backend tarafýnda kategori'ye göre ProductsController'da bir metot yazmamýþtýk o yapýyý oluþturmamýz gerekmektedir.
+
+45) Controller'dan baþlayarak bütün katmanlarý sýrasýyla oluþturacaðýz.(Eðer manager'da öyle bir metot yoksa)
+
+46) product.component.ts'de getProducts metodunda product service tarafýnda tanýmlanan getProducts metotu çalýþmakta ama biz eðer bir kategori seçilmiþse getbycategory gibi bir metot çalýþsýn seçilmemiþ default olarak getProducts çalýþsýn demeliyiz.
+
+47) Burada service yapýsýnda apiUrl'i daha önce vermiþtik bizim api yapýmýzdan kaynaklý oluþturulan url'ler zaten api kýsmýna kadar standart api den sonra her sayfanýn url'i deðiþmektedir.
+
+48) Bir fonksiyon içerisinde deðiþken yaratmak için let keyword'unden yararlanýrýz.
+
+49) product.service.ts deki apiUrl kýsmýný düzenliyoruz;
+
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { ListResponseModel } from '../models/ListResponseModel';
+import { Product } from '../models/product';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ProductService {
+
+  apiUrl = 'https://localhost:44389/api/';
+  constructor(private httpClient: HttpClient) { }
+
+  getProducts():Observable<ListResponseModel<Product>> {
+    let newPath = this.apiUrl + "products/getall"
+    return this.httpClient.get<ListResponseModel<Product>>(newPath);
+  }
+
+  getProductsByCategory(categoryId:number):Observable<ListResponseModel<Product>> {
+    let newPath = this.apiUrl + "products/getbycategory?categoryId="+categoryId
+    return this.httpClient.get<ListResponseModel<Product>>(newPath);
+  }
+}
+
+50) product.componenet.ts'de bir parametreyi okumak için constructor da activatedRoute yapýsýný injecte etmemiz gerekir.
+
+51) activatedRoute bizim browser'ýmýzda güncel url'i alýr ve biz kategorilere týkladýðýmýzda url'de kategori Id'sine göre deðiþmektedir.
+
+52) Bu url'lerde idleri okuyacaðýz.
+
+53) Öncelikle products.componene.ts'de service te oluþturduðumuz GetProductsByCategory için veriyi subscribe yapacak metodumuzu yazalým.
+
+54) Sonrada url'de kategori id doluysa bu metodu çalýþtýr yoksa getProducts'ý çalýþtýr diyeceðiz.
+
+55) Bunu ngOnit'de yapacaðýz. 
+
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Product } from 'src/app/models/product';
+import { ProductService } from 'src/app/services/product.service';
+
+@Component({
+  selector: 'app-product',
+  templateUrl: './product.component.html',
+  styleUrls: ['./product.component.css'],
+})
+export class ProductComponent implements OnInit {
+  products: Product[] = [];
+  dataLoaded = false;
+
+  // productResponseModel:ProductResponseModel={
+  //   data : this.products,
+  //   message:"",
+  //   success:true
+  // };
+
+  constructor(private productService:ProductService, private activatedRoute:ActivatedRoute) {}
+
+  ngOnInit(): void {
+    this.activatedRoute.params.subscribe(params => {
+      if(params["categoryId"]) {
+        this.getProductsByCategory(params["categoryId"])
+      }else{
+        this.getProducts()
+      }
+    })
+  }
+
+  getProducts() {
+    this.productService.getProducts().subscribe(response=> {
+      this.products=response.data
+      this.dataLoaded=true;
+    })
+  }
+
+  getProductsByCategory(categoryId:number) {
+    this.productService.getProductsByCategory(categoryId).subscribe(response=> {
+      this.products=response.data
+      this.dataLoaded=true;
+    })
+  }
+}
+
+56) Artýk kategori ye týkladýðýmýzda ona göre ürün getirmeye baþlayacak ama tekrardan ürünlerin hepsini listelemek istersek category html'de ul tag inde en üstte bir tane daha li tagi açabiliriz.
+
+57) category html'i
+
+<ul class="list-group">
+  <li [class]="getAllCategoryClass()"
+      routerLink="/products">
+    Tüm Ürünler
+  </li>
+  <li
+    (click)="setCurrentCategory(category)"
+    routerLink = "/products/category/{{category.categoryId}}"
+    *ngFor="let category of categories"
+    [class]="getCurrentCategoryClass(category)"
+  >
+    {{ category.categoryName }}
+  </li>
+</ul>
+
+<h5 *ngIf="currentCategory">{{ currentCategory.categoryName }} seçtiniz</h5>
+
+
+58) Tüm ürünler için getAllCategoryClass metodunu class içerisinde çaðýrdýk bu metot herhangi bir kategori seçili deðilse tüm tabloyu active edecektir. Bunu da componen.ts'de tanýmlýyoruz;
+
+getAllCategoryClass(){
+    if(!this.currentCategory) {
+      return "list-group-item active"
+    }else {
+      return "list-group-item"
+    }
+  }
+
+59) Nivbar'da dropdown sekmesi çalýþmýyor þu anda onun sebebi JQuery paketinden kaynaklanmaktadýr. npm install jquery
+
+60) Bunun devreye girebilmesi için angular.json'da scripts array'ini aþaüýdaki gibi düzenleyelim;
+
+"scripts": [
+              "./node_modules/jquery/dist/jquery.min.js",
+              "./node_modules/bootstrap/dist/js/bootstrap.min.js"
+            ]
+
+61) Resim eklemek için Startup.cs ' de app.UseStaticFiles(); eklemek lazým yoksa image path'ini localhost ile eþleþtiremez.
+
+62) Angular'da app-rotuing-module'da bir path tanýmladýðýnýzda parametre verdiðiniz alan neyse örneðin :carId , :ýd vb. ise veri tabanýnýzdaki
+
+controller ve class alanlarýnýz ile Angular'daki modules klasorundeki nesnelerinizdeki alan adlarýnýn uyuþmasý lazým yoksa cannot match url hatasý alýrýz.
+
+
+#19.GÜN DERS NOTLARI
+
+1) Bugünkü konumuz pipe üzerine olacak.
+
+2) pipe, elimizde bir data var ve o data yý farklý bir þekilde göstermek istiyorsak kullanýyoruz. Bu angular'da built-in olarak gelen pipe lar mevcut ama kýsýtlý.
+
+3) Biz kendi pipe'larýmýzý yazacaðýz.
+
+4) src-app-> pipes klasoru ekle
+
+5) pipes open in integrated terminal deyip ng g pipe vatAdded bunu kdvekleme için yapacaðýz.
+pipe'larý componenet'teki veriyi gösterirken html'de yararlanmalýyýz.
+
+6) componenets klasorunde product -> html'de 
+
+<td>{{product.productName | uppercase}}</td>
+lowecase'de deneyebiliriz
+
+7) unitPrice'a ek olarak bir kolon daha ekleyið KDV'li fiyatý da göstermek isteyelim.
+
+8) Elimizdeki fiyatak Kdv oraný uygulayarak bunu yapabiliriz.Bunu oluþturdupumuz vatAdded pipe ile yapacaðýz.
+
+9) <td>{{product.unitPrice | vatAdded:10 | currency}}</td>
+ile kdv oraný için 10 parametresi veriyoruz.
+currency'de para birimi eklemek için hazýr pipe'lardan birisi
+
+10) pipe'ta transform metodumuzu güncellemeye baþlýyoruz.
+
+11) transform(value: number, rate: number): number {
+    return value + (value*rate/100);
+  }
+
+12) Yeni bir pipe örneði daha yapalým.
+
+13) getbootstrap'te forms form control ile bir pipe yapýsýyla filtreleme yapacaðýz oradan
+ilk div yapýsýný kopyalayalým
+
+14) 
+<div class="mb-3">
+  <label for="exampleFormControlInput1" class="form-label">Email address</label>
+  <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+</div>
+
+15) prdocut html'de table tag ten önce ekleylim bu kodu
+
+16) 
+<div class="mb-3">
+  <label for="filterText" class="form-label">Ürün ara</label>
+  <input type="text" class="form-control" id="filterText" placeholder="arama ifadesi giriniz">
+</div>
+
+17) Kullanýcýnýn bir inputa girdiði bilgiyi nasýl alýrým bunu önce componenet'te tanýmlamalýyým.
+
+18) componenet'te filterText=""; tanýmlýyoruz. Bunuda html'de [(ngModel)]="filterText" ile bu input'un id'sinden gelecek açýklamayla map et deriz.
+
+<input type="text" [(ngModel)]="filterText" class="form-control" id="filterText" placeholder="arama ifadesi giriniz">
+
+19) html'de bir div daha ekleyelim input'ta yazýlaný çekip yazdýrmayý teyit etmek için ama bir hata alacaðýz
+
+<div>
+  {{filterText}} aradýnýz
+</div>
+
+20) Bu hata ngModel'i bilemedim diyor Angular bunun için Angular'da formlarla çalýþýrken bir input ile çalýþýrken app.module.ts'de bir modülü import etmek lazým.
+
+import{FormsModule} from "@angular/forms" ve bu FormsModule'da imports'ta belirtelim.
+
+21) Þimdi div yapýsýný güzelleþtirelim.
+
+<div *ngIf="filterText" class ="alert alert-success">
+  {{filterText}} aradýnýz
+</div>
+
+22) Bir arama cümlesi girildiyse alerti göster diyoruz kýsaca.
+
+23) Þimdi bu aranan kelimeye göre ürün listelemek için pipe yazalým.
+
+24) ng g pipe filterPipe yapalým ama dizine dikkat et pipes klasorundeyken yapýlmalý
+
+25) Bu pipe'ýn transform metodu aþaðýdaki gibi;
+
+burada return'de map,filter gibi javascript komutlarý yazacaðýz.
+
+26) Öncelikle gelen filter text'i ya küçük ya da büyük harfe çevirelim.
+
+filterText varsa küçük harfe çevirelim;
+filterText = filterText?filterText.toLocaleLowerCase():""
+
+buradaki soru iþareti var mý yok mu diye bakýyor.
+
+27) 
+  transform(value: Product[], filterText: string): Product[] {
+    filterText = filterText?filterText.toLocaleLowerCase():""
+    //Product'ta gelenfilterText'i dolaþ foreach ile veritabanýndan gelen ürün isimlerini de küçük harf yaptýktan sonra
+    //indexOf ile filterText veritabanýndan gelen ürün isimleriyle eþleþiyor mu
+    //eþleþmeyi de !==-1 ile eðer -1'den farklýysa yani eþleþiyorsa bunu bir array olarak döndürür
+    //eþleþen veri yoksa value yu döndür
+    return filterText?value
+    .filter((p:Product)=>p.productName.toLocaleLowerCase().indexOf(filterText)!==-1)
+    :value;
+  }
+
+28) Bunu html'de kullanmak için products'ý for ile döndürdüðümüz tr'de uygulamamýz lazým.
+
+29) <tr *ngFor="let product of products | filterPipe:filterText ">
+
+30) 
+
+
+
+
