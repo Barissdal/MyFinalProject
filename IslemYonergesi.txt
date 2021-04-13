@@ -1592,7 +1592,7 @@ pipe'larý componenet'teki veriyi gösterirken html'de yararlanmalýyýz.
 <td>{{product.productName | uppercase}}</td>
 lowecase'de deneyebiliriz
 
-7) unitPrice'a ek olarak bir kolon daha ekleyið KDV'li fiyatý da göstermek isteyelim.
+7) unitPrice'a ek olarak bir kolon daha ekleyip KDV'li fiyatý da göstermek isteyelim.
 
 8) Elimizdeki fiyatak Kdv oraný uygulayarak bunu yapabiliriz.Bunu oluþturdupumuz vatAdded pipe ile yapacaðýz.
 
@@ -1680,7 +1680,88 @@ buradaki soru iþareti var mý yok mu diye bakýyor.
 
 29) <tr *ngFor="let product of products | filterPipe:filterText ">
 
-30) 
+30) indexOf bir array döndürür bize unutmayalým.
+
+31) Herhangi bir ürünü sepete ekleme özelliði üzerine çalýþacaðýz bundan sonraki adýmlarda
+
+32) Her ürünün yanýna buton ekleyelim.
+
+<table *ngIf="dataLoaded==true"  class="table">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Ürün Adý</th>
+      <th>Kategori</th>
+      <th>Fiyat</th>
+      <th>Kdv'li Fiyat</th>
+      <th>Stok Adedi</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let product of products | filterPipe:filterText ">
+    <td>{{product.productId}}</td>
+    <td>{{product.productName | uppercase}}</td>
+    <td>{{product.categoryId}}</td>
+    <td>{{product.unitPrice}}</td>
+    <td>{{product.unitPrice | vatAdded:18 | currency}}</td>
+    <td>{{product.unitsInStock}}</td>
+    <td><button type="button" class="btn btn-success"> Sepete ekle</button></td>
+  </tr>
+</tbody>
+</table>
+
+33) Þimdi button'da click olduðunda componenet'teki addToCart() fonksiyonu çalýþssýn diyelim
+button (click)="addToCart(product)"
+
+34) product.component.ts'de bu metodu tanýmlayalým
+
+addToCart(product:Product) {
+    console.log(product)
+  }
+
+35) Sepete eklendiðinde bir notification sistemi ekleyelim.
+
+npm install ngx-toastr
+
+bu yapýyla kullanýcýlarý yönlendirmek için kullandýðýmýz notificationlarý yönlendirmek için
+
+36) ngx-toastr Angularýn animasyon paketini kullanýyor onu da yüklemek için
+
+npm install @angular/animations
+
+37) angular.json'da bu ngx-toastr'daki css'i eklemeliyiz.
+
+"./node_modules/ngx-toastr/toastr.css", styles'a ekleyelim.
+
+38) app.module.ts'de de eklediðimiz installer için import yapmalýyýz
+import{ToastrModule} from "ngx-toastr" ve import's ta ToastrModule.forRoot({
+      positionClass:"toast-bottom-right"
+    }) eklemeyi unutma
+
+39) Bu notification'ýný sepete eklediðimizde çýkartacaðýz
+
+40) Bu toastr bir service olarak yazýldýðý için bunu product component'ýnda constructor 'da injection yapmalýyýz
+
+constructor(private productService:ProductService,
+    private toastrService:ToastrService,
+    private activatedRoute:ActivatedRoute) {}
+
+41) Bu injectione da artýk addToCart'ta kullanabiliriz.
+
+addToCart(product:Product) {
+    this.toastrService.success("Sepete eklendi",product.productName);
+  }
+
+42) Yeni bir þey install yapýtðýmýzda çalýþmayý durdurup tekrar bir açalým Angular ozaman daha iyi derliyor.
+
+43) Animasyonumuzun daha iyi görünmesi için eklediðimiz bir install daha vardý onu da app module da import edelim.
+
+44)
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations"
+
+45) 
+
 
 
 
