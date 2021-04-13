@@ -1760,7 +1760,187 @@ addToCart(product:Product) {
 44)
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations"
 
-45) 
+45) Buttona týkladýðýmýzda Sepete ekle iþlemi veritabanýndaki tablolarýmýza da iþlesin istiyoruz.
+
+46) Bunun için Back-end tarafýnda iþlemleri gerçekleþtirmemiz gerekmektedir. Buna alternatif olarakta bunu front-end tarafýnda yapalým þimdilik.
+
+47) Angular'da ilk önce bunun model'ini models klasorunda cartItem.ts olarak oluþturalým.
+
+48) Biz bu bilgileri veritabanýnda deðil bellekte tutacaðýz.
+
+49) models'da cartItems.ts oluþturalým
+
+50) Sepete eklenen ürünleri Dropdown'da göstermek istiyoruz.
+
+51) Böyle bir durumda bunu nav içinde de yapabiliriz ama bunun için bir component oluþturarak yapalým.
+
+52) componenets klasorunu open in integrated terminal yapýp
+ng g component cart-summary
+
+53) navi html'de dropdown kýsmýný bululalým. 15 ile 25. satýrlarý keselim. Onun yerine app-cart-summary tag'i ekleyelim.
+
+54) Çünkü bunu cart-summary componenet'ýnda tanýmlayacaðýz.
+
+55) cart-summary html'de kestiðimiz kodlarý yapýþtýralým. 
+
+56) Artýk burada cartItems elemanlarýný bir döngüyle buraya ekletebiliriz.
+
+57) cart-summary componenet.ts'de cartItems array'i tanýmlayalým.
+Html kýsmýnda da bazý düzenlemeler yapýyoruz.
+
+58) 
+<li *ngIf="cartItems" class="nav-item dropdown">
+  <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Sepetiniz
+  </a>
+  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+    <li *ngFor="let cartItem of cartItems"><a
+       class="dropdown-item" >{{cartItem.product.productName}}</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" >Sepete git</a></li>
+  </ul>
+</li>
+
+59) Þimdi sepettimiz boþ olduðu için Sepete ekle butonuna basýldýðýnda sepet bilgilerim eklensin istiyoruz. Bunu farklý ortamlarda da kullanacaðýmýz için bir service yapýsý kurmalýyýz.
+
+60) ng g service cart (tabi service folderýna pathi sabitledikten sonra)
+
+61) cart service.ts ' de burada ekleme iþlemlerini tanýmlayacaðýz.
+Ayný ürünü birden fazla eklediðimizde quantity'sini arttýrmak lazým
+
+62) Javascript'te arraye eleman eklemek için push fonksiyonu kullanýlýr.
+
+63) 
+  addToCart(product:Product){
+    //sepete eklenen product bizim sepete ekleme iþlemi için tutlan array'imizde olanlarýn itemý
+    let item = CartItems.find(c=> c.product.productId === product.productId);
+    if(item){
+      item.quantity+=1;
+    }else{
+      let cartItem = new CartItem();
+      cartItem.product=product;
+      cartItem.quantity=1;
+      CartItems.push(cartItem)
+    }
+  }
+
+64) Bundan sonra sepeti de çekmemiz gerekecekir.
+
+  list():CartItem[]{
+    return CartItems;
+  }
+
+65) Bu service product componenet'inde kullanacaðýz bunu da constructor'da belirtelim
+
+66) Burada addToCart metodu yazmýþtýk oraya artýk CartService'deki metodumuzu çaðýrabiliriz
+
+  addToCart(product:Product) {
+    this.toastrService.success("Sepete eklendi",product.productName);
+    this.cartService.addToCart(product);
+  }
+
+67) cart-summary.component.ts'de bu service injection yapalým ve sepete eklenen arrayi getirecek service'de tanýladýðýmýz list metodunu burada çaðýralým
+
+import { Component, OnInit } from '@angular/core';
+import { CartItem } from 'src/app/models/cartItem';
+import { CartService } from 'src/app/services/cart.service';
+
+@Component({
+  selector: 'app-cart-summary',
+  templateUrl: './cart-summary.component.html',
+  styleUrls: ['./cart-summary.component.css']
+})
+export class CartSummaryComponent implements OnInit {
+
+  cartItems:CartItem[];
+
+  constructor(private cartService:CartService) { }
+
+  ngOnInit(): void {
+    this.getCart();
+  }
+
+  getCart(){
+    this.cartItems = this.cartService.list();
+  }
+
+}
+
+68) Ama sayfayý refresh yaptýðýmýzda veri gidecek cart-summary.component.ts'de cartItems'a ilk deðer verelim öncelikle, html'de de *ngIf="cartItems.length>0" koþulu ekleyelim.
+
+Veriyi belekte tutmak için ödevlerde araþtýracaðýz.
+
+69) getbootstrap'ta Components'De Badge'te sorguyu alalým
+
+<button type="button" class="btn btn-primary">
+  Notifications <span class="badge bg-secondary">4</span>
+</button>
+
+70) Bunu html'de ilgili yere ekleyelim.
+
+<li *ngIf="cartItems.length>0" class="nav-item dropdown">
+  <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Sepetiniz
+  </a>
+  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+    <li *ngFor="let cartItem of cartItems"><a
+       class="dropdown-item">
+         <span class="badge bg-secondary">{{cartItem.quantity}}</span>
+      {{cartItem.product.productName}}</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" >Sepete git</a></li>
+  </ul>
+</li>
+
+71) Buraya eklenen ürünleri de dropdown'da silmek için bir span oluþturalým.
+<li *ngIf="cartItems.length>0" class="nav-item dropdown">
+  <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Sepetiniz
+  </a>
+  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+    <li *ngFor="let cartItem of cartItems"><a
+       class="dropdown-item">
+         <span class="badge bg-secondary">{{cartItem.quantity}}</span>
+      {{cartItem.product.productName}}
+      <span class="badge bg-secondary">Sil</span></a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" >Sepete git</a></li>
+  </ul>
+</li>
+
+72) Sil'i ekledikten sonra removeFromCart metodunu cart.service.ts'de yapalým;
+
+  removeFromCart(product:Product){
+    let item = CartItems.find(c=> c.product.productId === product.productId);
+    //splice metodu belirli bir indexten kaç tane silmek istediðimizi belirteceðimiz metot
+    CartItems.splice(CartItems.indexOf(item),1);
+  }
+
+73) tsconfig.json'da "strictNullChecks": false, ekleyelim.
+
+74) Service'te yaptýðýmýz metodu component'te çaðýracaðýz
+
+  removeFromCart(product:Product) {
+    this.cartService.removeFromCart(product);
+  }
+
+75) Bu metodu span'da Sil için olan yerde click yapýsý ile çaðýrmalýyýz;
+
+<span (click)="removeFromCart(cartItem.product)" class="badge bg-secondary">Sil</span>
+
+76) Bu yapýya toastr eklemek için componenet'te ToastrService injecte ederiz.
+
+77) 
+  removeFromCart(product:Product) {
+    this.cartService.removeFromCart(product);
+    this.toastrService.error("Silindi",product.productName + " sepetten silindi.")
+  }
+
+78) 
+
+
+
+
 
 
 
