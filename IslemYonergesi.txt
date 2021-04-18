@@ -1936,7 +1936,306 @@ Veriyi belekte tutmak için ödevlerde araþtýracaðýz.
     this.toastrService.error("Silindi",product.productName + " sepetten silindi.")
   }
 
-78) 
+
+
+
+  # 20.GÜN DERS NOTLARI
+
+1) Bugün ReactiveForm'lar ile Token yapýsný Angular'da ekleyeceðiz.
+
+2) Ürün ekleyeceðimiz, kategori ekleyeceðimiz reavtive form desteði ekleyelim.
+
+3) Projemizde ürün eklemek için yeni bir ürün ekleyeceðimiz bir component ekleyelim
+componnets'da sað click open integrated in terminal dedikten sonra
+
+ng g component product-add
+
+4) ReactiveForm yapýlabilmesi için FomrsModule'nýn olmasý gerekir. Bunun dýþýnda app.module.ts'de
+
+import {FormsModule, ReactiveFormsModule} from "@angular/forms"; bu daha önceden eklenmiþti buraya ReactiveFormsModule ekledik. import kýsmýnda da bunu eklememiz lazým.
+
+5) Bu formlarla çalýþabilmek için prdocut-add component'te import lar yapmalýyýz
+import {FormGroup, FormBuilder, FormControl, Validators} from "@angular/forms"
+
+FormBuilder= Reactiveform'un servisidir.Oyüzden contructor'da bunu injecte edelim.
+
+6) createProductAddForm metoduyla form oluþturamaya baþlayacaðýz.
+
+7) Ürün eklerken formda olmasýný istediðimiz alanlarý bu metotta belirtiriz.
+
+8) 
+ productName:["",Validators.required] burada "" olan yer bu alan için form'da bir default deðer gelmesini istiyorsak buraya yazabiliriz bizim bu proje içim yok.
+ Validators kýsmýnda ise bizim Back-end'deki FluentValidation gibi kullanýyoruz.
+
+9) Bu metodua ngOnInýt tarafýnda çaðýrdýðýmýz zaman form'dan gelen alanlara karþýlýk olan deðerleri map edecektir.
+
+10) 
+  createProductAddForm(){
+    this.productAddForm = this.formBuilder.group({
+      productName:["",Validators.required],
+      unitPrice:["",Validators.required],
+      unitsInStock:["",Validators.required],
+      categoryId:["",Validators.required]
+    })
+  }
+
+11) Þimdi bunun html'inin oluþturalým.
+
+<div class="content"> 
+  <form [fromGroup]="productAddFrom">
+
+  </form>
+</div>
+
+componenet'te tanýmladýðýmýz productAddFrom html'de map edildi yukarýdaki gibi
+
+12) Angular'da input tag i kullandýðýmýzda bu input deðerinin ne olacaðýný type kýsmýnda mutlaka ver.
+
+13) 
+<div class="content">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="title">Ürün ekle</h5>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="productAddForm">
+          <div class="from-group">
+            <input
+              type="text"
+              id="productName"
+              formControlName="productName"
+              class="from-control"
+              placeholder="Ürün adý"
+            />
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+input'ta bizim için önemli yer formControlName="productName" olacak buradaki productName bizim component tarafýnda tanýmladýðýmýz metot'daki productName ile ayný isimle olmalý buradaki Validators'larý uygulayabilmesi için hem de map yapacak
+
+14) Form larý entegre ettiðimizde sistemi durdur yeniden bir çalýþtýr.
+
+15) Þimdi bu oluþturuduðumuz sayfamýzý app-routing-module'da ekleyelim.
+{path:"products/add" , component:ProductAddComponent}
+
+16) Þimdi diðer inputlarý ekleyelim.
+
+17) 
+<div class="content">
+  <div class="col-md-12">
+      <div class="card">
+          <div class="card-header"><h5 class="title">Ürün ekle</h5></div>
+          <div class="card-body">
+              <form [formGroup]="productAddForm">
+                  <div class="mb-3">
+                      <label for="productName">Ürün adý</label>
+                      <div class="form-group">
+                          <input type="text"
+                          id="productName"
+                          formControlName="productName" class="form-control"
+                          placeholder="Ürün adý"/>
+                      </div>
+                  </div>
+
+                  <div class="mb-3">
+                      <label for="categoryId">Kategori</label>
+                      <div class="form-group">
+                          <input type="number"
+                          id="categoryId"
+                          formControlName="categoryId" class="form-control"
+                          placeholder="Kategori"/>
+                      </div>
+                  </div>
+                 <div class="mb-3">
+                  <label for="unitsInStock">Stok Adedi</label>
+                  <div class="form-group">
+                      <input type="number"
+                      id="unitsInStock"
+                      formControlName="unitsInStock" class="form-control"
+                      placeholder="Stok adedi"/>
+                  </div>
+                 </div>
+                  <div  class="mb-3">
+                      <label for="unitPrice">Birim Fiyatý</label>
+                      <div class="form-group">
+                          <input type="number"
+                          id="unitPrice"
+                          formControlName="unitPrice" class="form-control"
+                          placeholder="Fiyatý"/>
+                      </div>
+                  </div>
+
+              </form>
+          </div>
+          <div class="card-footer">
+            <button class="btn btn-fill btn-primary" (click)="add()" >Ekle</button>
+        </div>
+      </div>
+
+  </div>
+
+</div>
+
+
+18) Butona týkladýðýmýzda add metodunu componenet te tanýmlayalým.
+
+add(){
+    let productModel = Object.assign({},this.productAddForm.value) ;
+    console.log(productModel)
+  }
+
+Burada Object classý bizim form'dan gelen deðerleri bir nesneye döndürecek.
+
+19) Þimdi bu durumu bizim veritabanýmýza da eklemesi için product.service'de add metodu ekleyelim.
+
+20) 
+add(product:Product) {
+    return this.httpClient.post(this.apiUrl + "products/add",product)
+  }
+
+bu bir post iþlemi olacak ve en sonda da body'sinin product olduðunu söyleriz.
+
+21) Componenet'te add metodunu kullanalým artýk;
+
+add(){
+    if(this.productAddForm.valid) {
+      let productModel = Object.assign({},this.productAddForm.value) ;
+      this.productService.add(productModel);
+      this.toastrService.success("Ürün eklendi","Baþarýlý");
+    } else{
+      this.toastrService.error("Formunuz eksik");
+    }
+  }
+
+22) Bu haliyle hiçbir etkileþim olmaz çünkü bizim add'imiz Observable olarak geliyor bunu subscribe yapmak lazým.
+add(){
+    if(this.productAddForm.valid) {
+      let productModel = Object.assign({},this.productAddForm.value) ;
+      this.productService.add(productModel).subscribe(data=>{
+        console.log(data);
+        this.toastrService.success("Ürün eklendi","Baþarýlý");
+      });
+
+    } else{
+      this.toastrService.error("Formunuz eksik");
+    }
+  }
+
+23) Back-end'de ProductValidator'da kurallarýmýzý yazmýþtýk.
+ProductManager'da Add için yazdýðýmýz [SecuredOperation("product.add,admin")] ý comment
+yapalým çünkü Angular'da onu yazmadýk henüz.
+
+24) Þimdi form'dan ekleme yapmaya çalýþalým bu validation lara uyarak. Sonra veritabanýnda eklenmiþ mi diye kntrol edelim. 
+
+25) this.toastrService.success'de response'un(biz data dedik) message ný yazmak istersek add'in bir ResponseModel olduðunu tanýtmak lazým.
+
+product.service.ts'de
+add(product:Product):Observable<ResponseModel> {
+    return this.httpClient.post<ResponseModel>(this.apiUrl + "products/add",product)
+  }
+
+26) product-add.componenet.ts'de 
+
+add(){
+    if(this.productAddForm.valid) {
+      let productModel = Object.assign({},this.productAddForm.value) ;
+      this.productService.add(productModel).subscribe(data=>{
+        console.log(data);
+        this.toastrService.success(data.message,"Baþarýlý");
+      });
+
+    } else{
+      this.toastrService.error("Formunuz eksik");
+    }
+  }
+
+27) Validation'a uymayan bir ekleme yapmaya çalýþtýðýmýzda Api'den HttpErrorResponse'dan bir hata döndürür.
+Bunu add metodunda responseError olarak çekmemiz lazým.
+
+28) 
+add(){
+    if(this.productAddForm.valid) {
+      let productModel = Object.assign({},this.productAddForm.value) ;
+      this.productService.add(productModel).subscribe(response=>{
+        console.log(response);
+        this.toastrService.success(response.message,"Baþarýlý");
+      },responseError=>{
+        console.log(responseError.error)
+        this.toastrService.error(responseError.error)
+      });
+
+    } else{
+      this.toastrService.error("Formunuz eksik");
+    }
+
+  }
+
+29) Bu hata yönetemini back-end'de daha merkezi bir yapýda kontrol edeceðiz.
+
+30) engin demiroð Github'tan Core-Extensions-ExceptionMiddleware.cs (api de bir hata olursa nasýl davranmalýyým) bütün kodlarý try catch'e alýcak.
+
+31) class tan itibaren kopyala ve api de Core-Extensions'ta bir class oluþtur yapýþtýr
+
+32) Ayný þekilde github'ta errordetails.cs var onu da kopyala ve oluþturduðun class a yapýþtýr.
+
+33) Burada JsonConvert var bunu install etmemiz lazým.
+
+34) ExceptionMiddlewareExtensions.cs dosyasýný da kopyala ve ekle
+
+35) Startup'ta bu middleware i ekleyelim app.UseCors'tan önce
+
+app.ConfigureCustomExceptionMiddleware();
+
+36) product-add.component.ts'de responseError'da console log için responseError u yazdýralým
+
+37) Artýk sayfadaki hata mesajý object olarak dönecektir.
+
+38) Ürün eklerken hatalý bir þey form'da verildiðinde back-end tarafýnda validationrules tan dönecektir bunun detayýna baktýðýmýzda bunun bir IEnumareble olarak bir liste döner þimdi bunlarý düzenleyeceðiz
+
+39) ExceptionMiddleware.cs'de refactor yapalým
+
+40) ErrorDetails'da 
+public IEnumerable<ValidationFailure> Errors { get; set; } ekle
+
+41) Sistemsel hata olduðunda ErrorDetails alsýn ama validation hatasý alýrsa errordetails olan bir validationerrordetails alsýn istiyoruz. Çünkü mevcut durumda her ikisinde de errordetails yolluyoruz bunun front-end tarafýnda bug oluþturmamasý için ayýrýyoruz.
+
+ErrorDetails'da ValidationErrorDetails metodu oluþturuyoruz ve RxceptionMiddleware'de ilgili kýsmý ValidationErrorDetails yapmayý unutmuyoruz.
+
+public class ValidationErrorDetails:ErrorDetails
+    {
+        public IEnumerable<ValidationFailure> Errors { get; set; }
+    }
+
+42)  Artýk bir hata oluþtuðunzda array geliyor bana errorlar bunu da add metounda kullanalým.
+
+43) Bunu yaptýðýmýzda console'da gördüðümüz hatalarý artýk toastr ile ekrana yansýtabileceðiz.
+
+44) 
+  add(){
+    if(this.productAddForm.valid) {
+      let productModel = Object.assign({},this.productAddForm.value) ;
+      this.productService.add(productModel).subscribe(response=>{
+        this.toastrService.success(response.message,"Baþarýlý");
+      },responseError=>{
+        if(responseError.error.Errors.length > 0){
+        for (let i = 0; i < responseError.error.Errors.length; i++) {
+          this.toastrService.error(responseError.error.Errors[i].ErrorMessage,"Doðrulama hatasý")
+        }
+      }
+      });
+
+    } else{
+      this.toastrService.error("Formunuz eksik");
+    }
+
+  }
+
+
+
 
 
 
