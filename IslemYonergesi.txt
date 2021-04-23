@@ -2235,6 +2235,205 @@ public class ValidationErrorDetails:ErrorDetails
   }
 
 
+ #21.GÜN DERS NOTLARI
+
+1) Component klasorunde bir login component ekleyelim.
+
+2) getbootsrtapte examples sign-in týlayýp sað týk sayfa kaynaðý görüntüle kýsmýnda
+
+body tag ini alacak biçimde kopyalayalým;
+
+  <body class="text-center">
+    
+<main class="form-signin">
+  <form>
+    <img class="mb-4" src="/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
+    <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+
+    <div class="form-floating">
+      <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+      <label for="floatingInput">Email address</label>
+    </div>
+    <div class="form-floating">
+      <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+      <label for="floatingPassword">Password</label>
+    </div>
+
+    <div class="checkbox mb-3">
+      <label>
+        <input type="checkbox" value="remember-me"> Remember me
+      </label>
+    </div>
+    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+    <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
+  </form>
+</main>
+  </body>
+
+3) Bu kodu login html'ine yapýþtýr.
+
+4) app.module.ts'de login path i verelim;
+{path:"login" , component:LoginComponent}
+
+5) Sayfa kaynaðýndaki css'i de açýp kopyalayalým;
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #f5f5f5;
+}
+
+.form-signin {
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: auto;
+}
+
+.form-signin .checkbox {
+  font-weight: 400;
+}
+
+.form-signin .form-floating:focus-within {
+  z-index: 2;
+}
+
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+
+6) Bu kodu login içindeki css dosyasýna yapýþtýralým.
+
+7) login component.ts'de 
+import {FormGroup, FormControl, Validators, FormBuilder} from "@angular/forms"
+
+8) createLoginForm ile login metotlarýný oluþturacaðýz.
+
+9) html'de email inputunda formControlName="email" diðerinde de password için yapalým.
+
+10) Burada gerekli düzenlemeleri yapacaðýz.
+
+11) Artýk login olmak istendiðinde bu bilgileri bizim api'mize göndermemiz gerekir.
+
+12) services'ta bir ng g service auth yapalým.
+
+13) Api'mizde sisteme login olduðumuzda bir token bir de expiration bilgileri geliyor.
+
+14) Bunlarý model lememiz gerekir. Models'da new file deyip tokenModel.ts tanýmlayalým;
+export interface TokenModel{
+  token: String;
+  expiration: String;
+}
+
+15) Bir de email ve password bilgisini gönderebilmek için loginModel.tes tanýmlayalým;
+export interface LoginModel{
+  email: string;
+  password: string;
+}
+
+16) Auth service'te artýk login metodunu tanýmlayalým.
+login(loginModel:LoginModel) {
+    return this.httpClient.post(this.apiUrl + "login", loginModel)
+  }
+
+17) login olan kiþinin yetkisi olup olmadýðýný bulacak bir metot daha tanýmlayacaðýz. Burada localStorage yapýsýný kullanýrýz.
+http uygulamalarý unutkan bir servistir. Tarayýcý yenilendiði anda herþey iptal olur bunun tarayýcýnýn hatýrlamasý için localStorage'ta tutuyoruz.
+
+18) 
+isAuthenticated() {
+    if(localStorage.getItem("token")){
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
+19) logincomponent.ts'de bu service kullanalým
+  login(){
+    if(this.loginForm.valid) {
+      console.log(this.loginForm.value);
+      let loginModel = Object.assign({},this.loginForm.value)
+
+      this.authService.login(loginModel).subscribe(response=>{
+        console.log(response);
+      })
+    }
+  }
+
+20) auth.service.ts'de refactor yapacaðýz.
+
+21) models'da singleResponseModel.ts oluþturalým;
+
+  import { ResponseModel } from "./responseModel";
+
+export interface SingleResponseModel<T> extends ResponseModel {
+  data: T;
+}
+
+22) AuthController'da Login'de result.Data nýn yerine result döndürsün sessage ve success leri de göndermesi için
+
+23) Yani login olunca aslýnda bir data (token ve expiration içeren), message ve success döndürecek api'den
+
+24) Angular'da bunu da bize array deðilde tek bir data geleceði için singleResponseModel'da bize array deðilde bir T datasý gelecek ve bu daha önce tanýmladýðýmýz responseModel bilgilerini de tutacak diyoruz.
+
+25) Bunu da auth.service.ts'de login metounda httpClient'te post yaptýðýmýz zaman ilgili url'den gelecek bilgi SingleResponseModel<TokenModel>> olacak diyoruz.
+
+26) Bu token bilgisini de login.component.ts'de login içerisinde 
+localStorage.setItem("token", response.data.token) olarak tutarýz.
+
+27) Bu bilgiyi tarayýca login olup F12'de Application kýsmýnda key,value olarak tutulduðunu görebiliriz.
+
+28) Hata yakalama kodunu da yine burada düzenleyelim
+
+29) 
+  login(){
+    if(this.loginForm.valid) {
+      console.log(this.loginForm.value);
+      let loginModel = Object.assign({},this.loginForm.value)
+
+      this.authService.login(loginModel).subscribe(response=>{
+        this.toastrService.info(response.message);
+        //console.log(response);
+        localStorage.setItem("token", response.data.token)
+      }, responseError=>{
+        //console.log(responseError);
+        this.toastrService.error(responseError.error)
+      })
+    }
+  }
+
+30) 
+
 
 
 
