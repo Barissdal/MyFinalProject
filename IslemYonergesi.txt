@@ -2432,7 +2432,73 @@ localStorage.setItem("token", response.data.token) olarak tutarýz.
     }
   }
 
-30) 
+30) Api'de SecuredOperation larýmýz vardý. Burada ürün ekleme iþini bazý pozisyona sahip olanlar yapsýn demiþtik bunlarý þimdi commentlerini kaldýralým.
+
+31) Burada rol yönetimi, rol ekleme, kullanýcýya claim ekleme ekranlarý yapmamýz gerekir.
+
+32) Veritabanýmýzda olan kullanýcýlarýmýz ve Claim tablomuzdaki id'lere göre iþlemlerimizi yapacaðýz. 
+
+33) Biz angular'da henüz security claimlere göre bir iþlem yapmadýk burayý düzenleyeceðiz.
+
+34) Client server'a kullanýcý adý ve parolasýyla get yapar, server'da bize token yollar. Biz ürün eklerken bu token ý server'a gönderip yetkisi varsa ekleme iþlemini yapmasýný kontrol ettirmeliyiz.
+
+Oyüzden tüm component'larýn service leri için bu token ý kullanmamýz gerekecek
+
+35) .Net'te yaptýðýmýz Aspect'ler gibi Angular'da da bunlarý http Aspect ile yapacaðýz.
+
+36) Angular'da app'de interceptors folderý ekleyelim.
+
+37) interceptors klasorunde dizinimizi tuttuktan sonra ng g interceptor auth yapalým
+
+38) auth.interceptor.ts'de bizim request'imizde postman'daki gibi tokený Bearer ile ekleyerek yolluyorduk burada onu tanýmlýyoruz.
+
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+    let token = localStorage.getItem("token");
+    //bizim yaptýðýmýz request
+    let newRequest : HttpRequest<any>
+    //mevcut requesti klonlar ve biz buna bir de headers ekleyelim
+    newRequest = request.clone({
+      headers: request.headers.set("Authorization","Bearer " + token)
+    })
+    return next.handle(newRequest);
+  }
+
+39) Bunun devreye girebilmesi için app.module.ts'de providers kýsmýnda object formatýnda bir tanýmlama yapacaðýz.
+
+40) 
+  providers: [
+    {provide:HTTP_INTERCEPTORS, useClass:AuthInterceptor, multi:true}
+  ]
+
+41) Bütün http isteklerimizde AuthInterceptor ý kullanacak diyoruz
+
+3442kiþi ürün eklemeye gelmeye çalýþtýðýnda login olmamýþsa burada uyarý verelim.
+
+43) app ye guards klasoru ekleyelim. guard bir iþlemi yapabilsin mi yapamasýn mý desteði veren angular yapýsýdýr.
+
+44) guards dizininde ng g guard login dediðimizde 4 guard geliyor
+CanActivate = bir component'i açabilir mi
+CanDeactivate = ilgili component'i kapatabilir mi
+CanLoad = load ý yükleyebilir mi
+CanActivateChild = baþka bir child ý çalýþtýrabilir mi
+
+Biz enter yapalým
+
+45) login.guards.ts'de bu kiþi authenticat olmuþ mu olmamýþ mý bakmak istiyorum zaten bizim AuthService yapýmýz var bunu burada injection yapalým.
+
+46) 
+constructor( private authService:AuthService,
+    private toastrService:ToastrService,
+    private router:Router){}
+
+47) Burada authService ile bir token geldiyse ulaþabilsin giriþ yapmadýysa login sayfasýna yönlendirelim diyeceðiz.
+
+48) Bu guard'ý tanýmlamak ayný auth interceptors'daki gibi direkt yeterli deðil. app-routing.module.ts'de products/add path'inde canActivate:[LoginGuard]'ý devreye ekle demeliyiz.
+
+{path:"products/add" , component:ProductAddComponent, canActivate:[LoginGuard]}
+
+
+
 
 
 
